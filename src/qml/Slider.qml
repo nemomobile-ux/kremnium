@@ -25,18 +25,46 @@ import QtQuick.Controls
 import Nemo
 import Nemo.Controls
 
-Slider{
-    id: slider
-    height: Theme.itemHeightExtraLarge
+Column {
+    id: sliderItem
 
-    clip: true
+    height: slider.height + sliderlabel.height
 
-    property string valueText
     property alias maximumValue: slider.to
     property alias minimumValue: slider.from
+    property alias stepSize: slider.stepSize
+    property alias value: slider.value
+
     property alias label: sliderlabel.text
+
+    property string valueText
+
+/*
+https://sailfishos.org/develop/docs/silica/qml-sailfishsilica-sailfish-silica-slider.html/
+
+Properties
+animateValue : bool
+down : bool
+enabled : bool
+handleVisible : bool
+highlighted : bool
+label : string
+maximumValue : real
+minimumValue : real
+sliderValue : real
+stepSize : real
+value : real
+valueText : string
+*/
+
+    Slider{
+        id: slider
+        width: parent.width
+    }
 
     Label{
         id: sliderlabel
+        width: parent.width
+        horizontalAlignment: Text.AlignHCenter
     }
 }
