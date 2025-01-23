@@ -1,10 +1,10 @@
 # Kremnium
 
-Kremnium is migration and compatibility layer for build existing sailfish applications on Qt6 with minimal changes шт UI
+Kremnium is migration and compatibility layer for building existing sailfish applications with Qt6 with minimal changes in UI
 
 # Building libsailfishapp
 
-https://github.com/sailfishos/libsailfishapp now build on Qt6
+https://github.com/sailfishos/libsailfishapp now built with Qt6
 
 # What work
 
