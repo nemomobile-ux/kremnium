@@ -3,6 +3,7 @@ plugin kremniumplugin
 
 ApplicationWindow 1.0 ApplicationWindow.qml
 BusyIndicator 1.0 BusyIndicator.qml
+Button 1.0 Button.qml
 ContextMenu 1.0 ContextMenu.qml
 DockedPanel 1.0 DockedPanel.qml
 IconButton 1.0 IconButton.qml
@@ -15,5 +16,6 @@ PullDownMenu 1.0 PullDownMenu.qml
 RemorseItem 1.0 RemorseItem.qml
 RemorsePopup 1.0 RemorsePopup.qml
 SilicaListView 1.0 SilicaListView.qml
+Slider 1.0  Slider.qml
 VerticalScrollDecorator 1.0 VerticalScrollDecorator.qml
 ViewPlaceholder 1.0 ViewPlaceholder.qml
