@@ -26,5 +26,7 @@ import Nemo
 import Nemo.Controls
 
 Page {
-
+    headerTools: HeaderToolsLayout {
+        id: tools
+    }
 }
