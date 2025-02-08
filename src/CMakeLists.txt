@@ -37,6 +37,8 @@ qt6_add_qml_module(kremniumplugin
         QML_FILES qml/SilicaFlickable.qml
         QML_FILES qml/SectionHeader.qml
         SOURCES declarativepagestatus.h declarativepagestatus.cpp
+        SOURCES
+        SOURCES declarativetruncationmode.h declarativetruncationmode.cpp
 )
 
 target_link_libraries(kremniumplugin PUBLIC
