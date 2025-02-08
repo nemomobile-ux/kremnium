@@ -47,5 +47,5 @@ Label {
     horizontalAlignment: Text.AlignRight
     font.pixelSize: Theme.fontSizeSmall
     truncationMode: TruncationMode.Fade
-    color: palette.highlightColor
+    color: Theme.highlightColor
 }

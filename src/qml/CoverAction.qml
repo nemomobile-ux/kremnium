@@ -17,18 +17,11 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef PLUGIN_H
-#define PLUGIN_H
+// NOT IMPLEMENTED!!!
 
-#include <QQmlExtensionPlugin>
-
-class QQuickKremniumControlsExtensionPlugin : public QQmlExtensionPlugin {
-public:
-    Q_OBJECT
-    Q_PLUGIN_METADATA(IID QQmlEngineExtensionInterface_iid FILE "kremnium.json")
-public:
-    void registerTypes(const char* uri);
-    void initializeEngine(QQmlEngine* engine, const char* uri);
-};
-
-#endif // PLUGIN_H
+import QtQuick
+import QtQuick.Controls
+Item {
+    signal triggered()
+    property string iconSource
+}

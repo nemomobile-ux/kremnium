@@ -17,6 +17,7 @@ set(INSTALL_QML_IMPORT_DIR "${CMAKE_INSTALL_FULL_LIBDIR}/qt/qml"
 
 set(QT_MIN_VERSION "6.2.0")
 set(CMAKE_INSTALL_PREFIX /usr)
+SET(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 ### Sets QT_INSTALL_QML to the directory where QML Plugins should be installed
 function(FindQtInstallQml)
@@ -40,5 +41,7 @@ endif()
 
 find_package(Qt6 COMPONENTS Core Gui Qml Quick REQUIRED)
 find_package(PkgConfig REQUIRED)
+pkg_check_modules(NEMOCORE nemocoreplugin REQUIRED IMPORTED_TARGET)
+pkg_check_modules(MLITE mlite6 REQUIRED IMPORTED_TARGET)
 
 add_subdirectory(src)

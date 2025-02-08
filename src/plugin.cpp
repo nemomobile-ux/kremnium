@@ -20,6 +20,7 @@
 #include "plugin.h"
 #include "declarativepagestatus.h"
 #include "declarativetruncationmode.h"
+#include "kremniumtheme.h"
 #include <QtQml>
 #include <QScreen>
 
@@ -30,4 +31,13 @@ void QQuickKremniumControlsExtensionPlugin::registerTypes(const char* uri)
     qmlRegisterUncreatableType<Qt::ScreenOrientation>(uri, 1, 0, "Orientation", "Not creatable as it is an enum type");
     qmlRegisterUncreatableType<DeclarativePageStatus>(uri, 1, 0, "PageStatus", "Not creatable as it is an enum type");
     qmlRegisterUncreatableType<DeclarativeTruncationMode>(uri, 1, 0, "TruncationMode", "Not creatable as it is an enum type");
+}
+
+void QQuickKremniumControlsExtensionPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
+{
+    KremniumTheme* theme = new KremniumTheme();
+
+    QQmlExtensionPlugin::initializeEngine(engine, uri);
+    QQmlContext* context = engine->rootContext();
+    context->setContextProperty("Theme", theme);
 }

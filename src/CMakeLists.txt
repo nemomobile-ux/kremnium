@@ -1,12 +1,37 @@
 SET(SOURCES
-    plugin.cpp)
+    plugin.cpp
+    kremniumtheme.cpp
+    declarativepagestatus.cpp
+    declarativetruncationmode.cpp)
 
 SET(HEADERS
-    plugin.h)
+    plugin.h
+    kremniumtheme.h
+    declarativepagestatus.h
+    declarativetruncationmode.h )
 
 set(QML
     qml/ApplicationWindow.qml
-    kremnium.json)
+    qml/ContextMenu.qml
+    qml/PullDownMenu.qml
+    qml/RemorsePopup.qml
+    qml/Page.qml
+    qml/MenuItem.qml
+    qml/ViewPlaceholder.qml
+    qml/Label.qml
+    qml/VerticalScrollDecorator.qml
+    qml/PageHeader.qml
+    qml/RemorseItem.qml
+    qml/SilicaListView.qml
+    qml/IconButton.qml
+    qml/DockedPanel.qml
+    qml/BusyIndicator.qml
+    qml/SilicaFlickable.qml
+    qml/SectionHeader.qml
+    qml/CoverPage.qml
+    qml/CoverAction.qml
+    qml/CoverBackground.qml
+    qml/CoverActionList.qml)
 
 qt6_add_qml_module(kremniumplugin
     URI Sailfish.Silica
@@ -20,31 +45,14 @@ qt6_add_qml_module(kremniumplugin
         ${QML}
     OUTPUT_DIRECTORY
         ${CMAKE_BINARY_DIR}/Sailfish/Silica
-        QML_FILES qml/ContextMenu.qml
-        QML_FILES qml/PullDownMenu.qml
-        QML_FILES qml/RemorsePopup.qml
-        QML_FILES qml/Page.qml
-        QML_FILES qml/MenuItem.qml
-        QML_FILES qml/ViewPlaceholder.qml
-        QML_FILES qml/Label.qml
-        QML_FILES qml/VerticalScrollDecorator.qml
-        QML_FILES qml/PageHeader.qml
-        QML_FILES qml/RemorseItem.qml
-        QML_FILES qml/SilicaListView.qml
-        QML_FILES qml/IconButton.qml
-        QML_FILES qml/DockedPanel.qml
-        QML_FILES qml/BusyIndicator.qml
-        QML_FILES qml/SilicaFlickable.qml
-        QML_FILES qml/SectionHeader.qml
-        SOURCES declarativepagestatus.h declarativepagestatus.cpp
-        SOURCES
-        SOURCES declarativetruncationmode.h declarativetruncationmode.cpp
 )
 
 target_link_libraries(kremniumplugin PUBLIC
     Qt6::Core
     Qt6::Qml
-    Qt6::Quick)
+    Qt6::Quick
+    PkgConfig::MLITE
+    PkgConfig::NEMOCORE)
 
 install(TARGETS kremniumplugin
     RUNTIME DESTINATION "${QT_INSTALL_QML}/Sailfish/Silica"
