@@ -36,6 +36,7 @@ qt6_add_qml_module(kremniumplugin
         QML_FILES qml/BusyIndicator.qml
         QML_FILES qml/SilicaFlickable.qml
         QML_FILES qml/SectionHeader.qml
+        SOURCES declarativepagestatus.h declarativepagestatus.cpp
 )
 
 target_link_libraries(kremniumplugin PUBLIC

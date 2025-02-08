@@ -18,11 +18,12 @@
  */
 
 #include "plugin.h"
-
+#include "declarativepagestatus.h"
 #include <QtQml>
 
 void QQuickKremniumControlsExtensionPlugin::registerTypes(const char* uri)
 {
     Q_ASSERT(uri == QLatin1String("Sailfish.Silica"));
     qmlRegisterModule(uri, 1, 0);
+    qmlRegisterUncreatableType<DeclarativePageStatus>(uri, 1, 0, "PageStatus", "Not creatable as it is an enum type");
 }
