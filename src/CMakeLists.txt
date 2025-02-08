@@ -34,6 +34,7 @@ qt6_add_qml_module(kremniumplugin
         QML_FILES qml/IconButton.qml
         QML_FILES qml/DockedPanel.qml
         QML_FILES qml/BusyIndicator.qml
+        QML_FILES qml/SilicaFlickable.qml
 )
 
 target_link_libraries(kremniumplugin PUBLIC
