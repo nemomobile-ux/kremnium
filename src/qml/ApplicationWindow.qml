@@ -25,6 +25,21 @@ import QtQuick.Controls
 import Nemo
 import Nemo.Controls
 
-ApplicationWindow {
+KremniumWindow {
     property var cover
+    property alias initialPage: stackView.initialItem
+
+    anchors.fill: parent
+
+    Rectangle{
+        id: background
+        anchors.fill: parent
+        z: -1
+        color: Theme.backgroundColor
+    }
+
+    StackView {
+        id: stackView
+        anchors.fill: parent
+    }
 }

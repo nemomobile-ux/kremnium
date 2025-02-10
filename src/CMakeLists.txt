@@ -45,6 +45,7 @@ qt6_add_qml_module(kremniumplugin
         ${QML}
     OUTPUT_DIRECTORY
         ${CMAKE_BINARY_DIR}/Sailfish/Silica
+        SOURCES declarativewindow.h declarativewindow.cpp
 )
 
 target_link_libraries(kremniumplugin PUBLIC

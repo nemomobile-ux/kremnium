@@ -283,7 +283,7 @@ QColor KremniumTheme::secondaryColor() const
 
 QColor KremniumTheme::overlayBackgroundColor() const
 {
-    return m_overlayBackgroundColor;
+    return m_theme->backgroundColor();
 }
 
 QColor KremniumTheme::backgroundGlowColor() const
