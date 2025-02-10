@@ -22,6 +22,28 @@
 import QtQuick
 import QtQuick.Controls
 
-Item {
-    property var title
+Rectangle {
+    property alias title: labelText.text
+    height: Theme.itemSizeLarge
+    width: parent.width
+    clip: true
+
+    anchors{
+        top: parent.top
+    }
+
+    color: Theme.overlayBackgroundColor
+
+    Label{
+        id: labelText
+        anchors{
+            left: parent.left
+            leftMargin: Theme.paddingMedium
+            verticalCenter: parent.verticalCenter
+        }
+        color: Theme.primaryColor
+        font.pixelSize: Theme.fontSizeLarge
+
+        onTextChanged: console.log(labelText.text)
+    }
 }
