@@ -23,5 +23,5 @@ import QtQuick
 import QtQuick.Controls
 
 Item {
-
+    visible: false
 }

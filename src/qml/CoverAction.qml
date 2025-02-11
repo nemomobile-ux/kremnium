@@ -24,4 +24,6 @@ import QtQuick.Controls
 Item {
     signal triggered()
     property string iconSource
+
+    visible: false
 }
