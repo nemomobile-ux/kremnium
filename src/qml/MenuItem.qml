@@ -22,6 +22,14 @@
 import QtQuick
 import QtQuick.Controls
 
-Label{
-    signal clicked
+MouseArea{
+    width: parent.width
+    height: Theme.itemSizeLarge
+
+    property alias text: menuItemText.text
+
+    Label{
+        id: menuItemText
+        anchors.centerIn: parent
+    }
 }
