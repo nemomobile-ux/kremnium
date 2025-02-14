@@ -15,6 +15,7 @@ Label 1.0 Label.qml
 ListItem 1.0 ListItem.qml
 Page 1.0 Page.qml
 PageHeader 1.0 PageHeader.qml
+ProgressBar 1.0 ProgressBar.qml
 MenuItem 1.0 MenuItem.qml
 PullDownMenu 1.0 PullDownMenu.qml
 RemorseItem 1.0 RemorseItem.qml

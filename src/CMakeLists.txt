@@ -2,13 +2,15 @@ SET(SOURCES
     plugin.cpp
     kremniumtheme.cpp
     declarativepagestatus.cpp
+    declarativewindow.cpp
     declarativetruncationmode.cpp)
 
 SET(HEADERS
     plugin.h
     kremniumtheme.h
     declarativepagestatus.h
-    declarativetruncationmode.h )
+    declarativetruncationmode.h
+    declarativewindow.h)
 
 set(QML
     qml/ApplicationWindow.qml
@@ -31,7 +33,8 @@ set(QML
     qml/CoverPage.qml
     qml/CoverAction.qml
     qml/CoverBackground.qml
-    qml/CoverActionList.qml)
+    qml/CoverActionList.qml
+    qml/ProgressBar.qml)
 
 qt6_add_qml_module(kremniumplugin
     URI Sailfish.Silica
@@ -45,7 +48,6 @@ qt6_add_qml_module(kremniumplugin
         ${QML}
     OUTPUT_DIRECTORY
         ${CMAKE_BINARY_DIR}/Sailfish/Silica
-        SOURCES declarativewindow.h declarativewindow.cpp
 )
 
 target_link_libraries(kremniumplugin PUBLIC
