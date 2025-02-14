@@ -28,6 +28,7 @@ import Nemo.Controls
 KremniumWindow {
     property var cover
     property alias initialPage: stackView.initialItem
+    property var allowedOrientations
 
     anchors.fill: parent
 
