@@ -26,5 +26,5 @@ import Nemo
 import Nemo.Controls
 
 ScrollDecorator{
-
+    flickable: parent
 }
