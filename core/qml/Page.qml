@@ -17,16 +17,28 @@
  * Boston, MA 02110-1301, USA.
  */
 
-// NOT IMPLEMENTED!!!
-
 import QtQuick
 import QtQuick.Controls
 
 import Nemo
 import Nemo.Controls
 
-Page {
+NemoPage {
+    id: page
+    readonly property double backGestureThreshold: Theme.itemHeightLarge
+
+    property int status: pageStack ? StackView.status : StackView.Inactive
+    property variant headerTools
+
+    default  property alias __content: content.data
+
     headerTools: HeaderToolsLayout {
-        id: tools
+        showBackButton: true;
+        title: "Untitled"
+    }
+
+    Item {
+        id: content
+        anchors.fill: parent
     }
 }

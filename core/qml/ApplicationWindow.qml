@@ -17,8 +17,6 @@
  * Boston, MA 02110-1301, USA.
  */
 
-// NOT IMPLEMENTED!!!
-
 import QtQuick
 import QtQuick.Controls
 
@@ -26,11 +24,13 @@ import Nemo
 import Nemo.Controls
 
 KremniumWindow {
+    id: applicationWindow
     property var cover
     property alias pageStack: stackView
     property alias initialPage: stackView.initialItem
     property var allowedOrientations
     property var defaultAllowedOrientations
+    property alias contentItem: content
 
     anchors.fill: parent
 
@@ -41,8 +41,14 @@ KremniumWindow {
         color: Theme.backgroundColor
     }
 
-    StackView {
-        id: stackView
+    Item {
+        id: content
         anchors.fill: parent
+
+        StackView {
+            id: stackView
+            anchors.fill: parent
+            focus: true
+        }
     }
 }
