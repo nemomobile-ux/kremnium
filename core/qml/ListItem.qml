@@ -23,6 +23,9 @@ import QtQuick
 import QtQuick.Controls
 
 MouseArea{
-    property int contentHeight
+    id: listItem
+
+    property alias contentHeight: listItem.height
     property var menu
+    parent: listItem.ListView.view
 }
