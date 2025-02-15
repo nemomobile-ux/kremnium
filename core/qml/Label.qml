@@ -38,6 +38,7 @@ import Sailfish.Silica 1.0
 Text {
     id: root
 
+    property bool highlighted: false
     property int truncationMode
     property bool _fadeText: width > 0 && truncationMode == TruncationMode.Fade && lineCount == 1 && contentWidth > Math.ceil(width)
     property bool _elideText: (truncationMode == TruncationMode.Elide) || (truncationMode == TruncationMode.Fade && lineCount > 1)
@@ -47,7 +48,7 @@ Text {
                                                                                                          : Text.ElideMiddle))
                       : Text.ElideNone
 
-    color: highlighted ? palette.highlightColor : palette.primaryColor
+    color: highlighted ? Theme.highlightColor : Theme.primaryColor
     font.pixelSize: Theme.fontSizeMedium
     //textFormat: _defaultLabelFormat
 
