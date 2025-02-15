@@ -39,9 +39,10 @@ if(POLICY CMP0071)
     cmake_policy(SET CMP0071 NEW)
 endif()
 
-find_package(Qt6 COMPONENTS Core Gui Qml Quick REQUIRED)
+find_package(Qt6 COMPONENTS Core Gui Qml Quick WebEngineQuick REQUIRED)
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(NEMOCORE nemocoreplugin REQUIRED IMPORTED_TARGET)
 pkg_check_modules(MLITE mlite6 REQUIRED IMPORTED_TARGET)
 
-add_subdirectory(src)
+add_subdirectory(core)
+add_subdirectory(webview)
