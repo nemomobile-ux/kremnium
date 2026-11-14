@@ -5,6 +5,7 @@ Image {
     id: root
     property bool highlighted: false
     property color color: Theme.primaryColor
+    property color highlightColor: Theme.highlightColor
     fillMode: Image.PreserveAspectFit
     asynchronous: true
 }

@@ -6,12 +6,12 @@ TextInput {
     property string label
     property string placeholderText
     property string description
-    property string errorHighlight
+    property bool errorHighlight: false
     property bool acceptableInput: true
     property int textLeftMargin: Theme.horizontalPageMargin
     property int textRightMargin: Theme.horizontalPageMargin
     property int textTopMargin: Theme.paddingMedium
-    property real labelVisible: 1.0
+    property var labelVisible: 1.0
     property color color: Theme.primaryColor
     property color placeholderColor: Theme.secondaryColor
     property bool enableSoftwareInputPanel: true
@@ -19,6 +19,7 @@ TextInput {
     property Item rightItem
     property Item leftItem
     property bool focusOutBehavior: false
+    property bool focusOnClick: true
     property bool textRightAligned: false
     property int backgroundStyle: 0
     property var background
