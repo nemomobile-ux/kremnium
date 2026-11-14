@@ -1,7 +1,7 @@
-import QtQuick
-import QtQuick.Controls
+import QtQuick 2.0
+import QtQuick.Controls 2.0 as QQC2
 import Nemo
-import Nemo.Controls
+import Nemo.Controls as NemoControls
 import Sailfish.Silica 1.0
 
 Column {
@@ -9,10 +9,10 @@ Column {
 
     height: slider.height + sliderlabel.height + valueLabel.height
 
-    property alias maximumValue: slider.to
-    property alias minimumValue: slider.from
-    property alias stepSize: slider.stepSize
-    property alias value: slider.value
+    property real maximumValue: 1.0
+    property real minimumValue: 0.0
+    property real stepSize: 0.0
+    property real value: 0.0
     property real sliderValue: value
 
     property alias label: sliderlabel.text
@@ -26,13 +26,36 @@ Column {
 
     signal clicked()
 
-    Component.onCompleted: { if (slider.value === undefined || isNaN(Number(slider.value))) { try { slider.value = 0 } catch(e) { try { sliderItem.value = 0 } catch(e2) {} } } }
-    onValueChanged: { if (value === undefined || isNaN(Number(value))) value = 0 }
-
-    Slider{
+    NemoControls.Slider {
         id: slider
         width: parent.width
         opacity: sliderItem.handleVisible ? 1.0 : 0.5
+        from: sliderItem.minimumValue
+        to: sliderItem.maximumValue
+        stepSize: sliderItem.stepSize
+        value: sliderItem.value
+        onValueChanged: {
+            if (sliderItem.value !== value) sliderItem.value = value
+        }
+    }
+
+    onMinimumValueChanged: if (slider.from !== minimumValue) slider.from = minimumValue
+    onMaximumValueChanged: if (slider.to !== maximumValue) slider.to = maximumValue
+    onStepSizeChanged: if (slider.stepSize !== stepSize) slider.stepSize = stepSize
+    onValueChanged: {
+        if (value === undefined || isNaN(Number(value))) {
+            sliderItem.value = 0
+            return
+        }
+        if (slider.value !== value) slider.value = value
+    }
+
+    Component.onCompleted: {
+        if (sliderItem.value === undefined || isNaN(Number(sliderItem.value))) sliderItem.value = 0
+        slider.from = sliderItem.minimumValue
+        slider.to = sliderItem.maximumValue
+        slider.stepSize = sliderItem.stepSize
+        slider.value = sliderItem.value
     }
 
     Label{
