@@ -4,10 +4,11 @@ import Nemo
 import Nemo.Controls as NemoControls
 import Sailfish.Silica 1.0
 
-Column {
+Item {
     id: sliderItem
 
-    height: slider.height + sliderlabel.height + valueLabel.height
+    implicitHeight: slider.implicitHeight + (sliderlabel.visible ? sliderlabel.implicitHeight : 0) + (valueLabel.visible ? valueLabel.implicitHeight : 0)
+    height: implicitHeight
 
     property real maximumValue: 1.0
     property real minimumValue: 0.0
@@ -28,7 +29,9 @@ Column {
 
     NemoControls.Slider {
         id: slider
-        width: parent.width
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: parent.top
         opacity: sliderItem.handleVisible ? 1.0 : 0.5
         from: sliderItem.minimumValue
         to: sliderItem.maximumValue
@@ -58,17 +61,21 @@ Column {
         slider.value = sliderItem.value
     }
 
-    Label{
+    Label {
         id: sliderlabel
-        width: parent.width
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: slider.bottom
         horizontalAlignment: Text.AlignHCenter
         visible: text.length > 0
         color: sliderItem.labelColor
     }
 
-    Label{
+    Label {
         id: valueLabel
-        width: parent.width
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: sliderlabel.visible ? sliderlabel.bottom : slider.bottom
         horizontalAlignment: Text.AlignHCenter
         visible: sliderItem.valueText.length > 0
         text: sliderItem.valueText

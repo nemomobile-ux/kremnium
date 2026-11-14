@@ -47,6 +47,7 @@ set(QML
     qml/CoverBackground.qml
     qml/CoverPage.qml
     qml/CoverPlaceholder.qml
+    qml/DefaultCover.qml
     qml/Dialog.qml
     qml/DialogHeader.qml
     qml/ColorPickerPage.qml

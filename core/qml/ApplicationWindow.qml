@@ -205,9 +205,18 @@ NemoWindow {
         Loader {
             id: coverLoader
             anchors.fill: parent
+            property string _resolvedSource: {
+                var c = applicationWindow.cover
+                if (typeof c === "string" || c instanceof String) {
+                    if (c === "private/DefaultCover.qml" || c.indexOf("/private/DefaultCover.qml") !== -1)
+                        return Qt.resolvedUrl("DefaultCover.qml")
+                    return c
+                }
+                return ""
+            }
             active: applicationWindow.cover !== null && applicationWindow.cover !== undefined && (typeof applicationWindow.cover === "string" || applicationWindow.cover instanceof String || !!(applicationWindow.cover && applicationWindow.cover.createObject))
             sourceComponent: (applicationWindow.cover && applicationWindow.cover.createObject) ? applicationWindow.cover : null
-            source: (typeof applicationWindow.cover === "string" || applicationWindow.cover instanceof String) ? applicationWindow.cover : ""
+            source: _resolvedSource
             onLoaded: {
                 if (item) {
                     item.visible = true
