@@ -163,6 +163,37 @@ NemoWindow {
             id: content
             anchors.fill: stackView
         }
+
+        // Basic edge-swipe back navigation (Silica-like)
+        MouseArea {
+            id: backSwipeArea
+            anchors.left: parent.left
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            width: Theme.horizontalPageMargin > 0 ? Theme.horizontalPageMargin : 24
+            z: 1000
+            enabled: stackView.depth > 1 && (!(stackView.currentItem && stackView.currentItem.backNavigation === false))
+            preventStealing: false
+            propagateComposedEvents: true
+
+            property real _startX: 0
+            property bool _tracking: false
+
+            onPressed: function(mouse) {
+                _startX = mouse.x
+                _tracking = true
+            }
+            onPositionChanged: function(mouse) {
+                if (!_tracking) return
+                var dx = mouse.x - _startX
+                if (dx > (Theme.itemSizeLarge > 0 ? Theme.itemSizeLarge : 64)) {
+                    _tracking = false
+                    pageStackItem.navigateBack()
+                }
+            }
+            onReleased: _tracking = false
+            onCanceled: _tracking = false
+        }
     }
 
     Item {
