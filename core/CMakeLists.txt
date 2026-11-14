@@ -4,6 +4,8 @@ SET(SOURCES
     declarativepagestatus.cpp
     declarativewindow.cpp
     declarativetruncationmode.cpp
+    declarativebuttonlayout.cpp
+    declarativeregexpvalidator.cpp
     silicascreen.cpp)
 
 SET(HEADERS
@@ -12,13 +14,18 @@ SET(HEADERS
     declarativepagestatus.h
     declarativetruncationmode.h
     declarativepagestackaction.h
+    declarativedock.h
+    declarativetouchinteraction.h
     declarativewindow.h
     silicascreen.h
     silicaorientation.h
     silicacover.h
     silicaformat.h
     silicabusyindicatorsize.h
-    buttonlayoutattached.h)
+    buttonlayoutattached.h
+    enterkeyattached.h
+    declarativebuttonlayout.h
+    declarativeregexpvalidator.h)
 
 set(QML
     qml/AddAnimation.qml
@@ -27,7 +34,6 @@ set(QML
     qml/BusyIndicator.qml
     qml/BusyLabel.qml
     qml/Button.qml
-    qml/ButtonLayout.qml
     qml/Clipboard.qml
     qml/ComboBox.qml
     qml/ContextMenu.qml
@@ -75,7 +81,6 @@ set(QML
     qml/ProgressBar.qml
     qml/ProgressCircle.qml
     qml/PullDownMenu.qml
-    qml/RegExpValidator.qml
     qml/RemorseItem.qml
     qml/RemorsePopup.qml
     qml/RemoveAnimation.qml

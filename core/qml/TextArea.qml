@@ -9,6 +9,10 @@ TextEdit {
     property bool acceptableInput: true
     property real labelVisible: 1.0
     property var labelComponent
+    property Item leftItem
+    property Item rightItem
+    property int backgroundStyle: 0
+    property var background
     color: Theme.primaryColor
     font.pixelSize: Theme.fontSizeMedium
     wrapMode: TextEdit.Wrap

@@ -11,6 +11,9 @@ Item {
     property alias menu: menuLoader.sourceComponent
     property bool enabled: true
 
+    signal activated(int index)
+    signal clicked()
+
     QtObject { id: internal; property int currentIndex: -1 }
 
     implicitHeight: Theme.itemSizeSmall
@@ -29,13 +32,28 @@ Item {
         Label { text: root.description; visible: text.length>0; color: Theme.secondaryColor; font.pixelSize: Theme.fontSizeExtraSmall }
     }
 
-    Loader { id: menuLoader; visible: false }
+    Loader {
+        id: menuLoader
+        active: true
+        visible: false
+        onLoaded: {
+            if (item) {
+                if (item.activated) item.activated.connect(function(idx) { internal.currentIndex = idx; root.activated(idx) })
+                if (item.parent !== root) item.parent = root
+            }
+        }
+    }
 
     MouseArea {
         anchors.fill: parent
         onClicked: {
-            if (menuLoader.item && menuLoader.item.open) menuLoader.item.open(root)
-            else if (menuLoader.item) menuLoader.item.visible = !menuLoader.item.visible
+            root.clicked()
+            if (menuLoader.item) {
+                if (menuLoader.item.open) menuLoader.item.open(root)
+                menuLoader.item.visible = true
+                menuLoader.item.z = 1000
+                menuLoader.item.width = root.width
+            }
         }
     }
 }

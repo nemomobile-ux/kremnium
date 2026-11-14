@@ -5,13 +5,25 @@ Item {
     id: root
     property bool open: false
     property bool opened: open
-    property Item background
-    property Item foreground
+    property alias background: backgroundItem.data
+    property alias foreground: foregroundItem.data
     property bool hideOnMinimize: true
-    property real dock: 0
-    default property alias _content: contentItem.data
-    anchors.fill: parent
-    Item { id: contentItem; anchors.fill: parent }
+    property int dock: Dock.Left
+    default property alias _content: foregroundItem.data
+
+    Item {
+        id: backgroundItem
+        anchors.fill: parent
+        visible: root.open
+        z: 0
+    }
+
+    Item {
+        id: foregroundItem
+        anchors.fill: parent
+        z: 1
+    }
+
     function show() { open = true }
     function hide() { open = false }
 }

@@ -20,6 +20,8 @@ TextInput {
     property Item leftItem
     property bool focusOutBehavior: false
     property bool textRightAligned: false
+    property int backgroundStyle: 0
+    property var background
     property int inputMethodHints: Qt.ImhNone
     property string _editorPlaceholderText: placeholderText
     echoMode: TextInput.Normal
@@ -27,5 +29,6 @@ TextInput {
     width: parent ? parent.width : implicitWidth
     height: Math.max(Theme.itemSizeSmall, implicitHeight + Theme.paddingMedium)
     Rectangle { anchors.fill: parent; z: -1; color: Theme.highlightBackgroundColor; opacity: 0.1; radius: 4 }
-    Item { id: _right; data: root.rightItem ? [root.rightItem] : []; anchors.right: parent.right; anchors.verticalCenter: parent.verticalCenter }
+    Item { id: _rightHolder; anchors.right: parent.right; anchors.verticalCenter: parent.verticalCenter; width: root.rightItem ? root.rightItem.width : 0; height: root.rightItem ? root.rightItem.height : 0 }
+    Item { id: _leftHolder; anchors.left: parent.left; anchors.verticalCenter: parent.verticalCenter; width: root.leftItem ? root.leftItem.width : 0; height: root.leftItem ? root.leftItem.height : 0 }
 }

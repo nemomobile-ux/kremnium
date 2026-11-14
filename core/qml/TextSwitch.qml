@@ -18,12 +18,11 @@ MouseArea {
 
     onClicked: if (automaticCheck) checked = !checked
 
-    Item {
+    Image {
         id: iconItem
-        property string source
-        property bool highlighted
         visible: false
         width: 0; height: 0
+        property bool highlight: false
     }
 
     Rectangle {

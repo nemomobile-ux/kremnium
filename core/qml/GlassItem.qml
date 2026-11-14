@@ -8,6 +8,8 @@ Item {
     property real radius: 0.5
     property real falloffRadius: 0.1
     property real brightness: 1.0
+    property real ratio: 0.0
+    property bool cache: false
     implicitWidth: Theme.itemSizeExtraSmall
     implicitHeight: Theme.itemSizeExtraSmall
 

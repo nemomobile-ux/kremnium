@@ -4,10 +4,12 @@ Column {
     id: root
     property string title
     property bool expanded: false
-    property Component content
     property alias button: headerItem
-    default property alias _content: body.data
+    property alias content: contentLoader
+    default property alias _content: bodyContent.data
+
     width: parent ? parent.width : implicitWidth
+
     BackgroundItem {
         id: headerItem
         width: parent.width
@@ -18,9 +20,20 @@ Column {
     Item {
         id: body
         width: parent.width
-        height: root.expanded ? implicitHeight : 0
+        height: root.expanded ? Math.max(bodyContent.implicitHeight, contentLoader.item ? contentLoader.item.implicitHeight : 0, contentLoader.item ? contentLoader.item.height : 0) : 0
         visible: root.expanded
-        implicitHeight: childrenRect.height
-        Loader { sourceComponent: root.content; width: parent.width }
+        clip: true
+        implicitHeight: Math.max(bodyContent.implicitHeight, contentLoader.item ? contentLoader.item.implicitHeight : 0)
+
+        Item {
+            id: bodyContent
+            width: parent.width
+            implicitHeight: childrenRect.height
+            height: implicitHeight
+        }
+        Loader {
+            id: contentLoader
+            width: parent.width
+        }
     }
 }

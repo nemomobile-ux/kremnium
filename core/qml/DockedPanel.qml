@@ -1,30 +1,36 @@
-/*
- * Copyright (C) 2025 Chupligin Sergey <neochapay@gmail.com>
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Library General Public
- * License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Library General Public License for more details.
- *
- * You should have received a copy of the GNU Library General Public License
- * along with this library; see the file COPYING.LIB.  If not, write to
- * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA 02110-1301, USA.
- */
+import QtQuick 2.0
+import Sailfish.Silica 1.0
 
-// NOT IMPLEMENTED!!!
+Item {
+    id: root
+    property bool open: false
+    property bool opened: open
+    property bool expanded: open
+    property bool modal: false
+    property bool docked: true
+    property int dock: Dock.Bottom
+    property real visibleSize: open ? (dock === Dock.Left || dock === Dock.Right ? width : height) : 0
+    property real _visibleSize: visibleSize
+    property alias background: bg.data
+    property alias contentItem: contentItem
 
-import QtQuick
-import QtQuick.Controls
+    default property alias _content: contentItem.data
 
-Flickable{
-    id: dockedPanel
+    z: 10
+    visible: open || height > 0 || width > 0
 
-    property bool open
-    property int dock: 0
+    Rectangle {
+        id: bg
+        anchors.fill: parent
+        color: Theme.highlightDimmerColor
+        opacity: 0.9
+        z: -1
+    }
+    Item {
+        id: contentItem
+        anchors.fill: parent
+    }
+
+    function show(immediate) { open = true }
+    function hide(immediate) { open = false }
 }

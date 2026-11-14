@@ -7,7 +7,6 @@ BackgroundItem 1.0 BackgroundItem.qml
 BusyIndicator 1.0 BusyIndicator.qml
 BusyLabel 1.0 BusyLabel.qml
 Button 1.0 Button.qml
-ButtonLayout 1.0 ButtonLayout.qml
 singleton Clipboard 1.0 Clipboard.qml
 ColorPickerPage 1.0 ColorPickerPage.qml
 ComboBox 1.0 ComboBox.qml
@@ -55,7 +54,6 @@ PasswordField 1.0 PasswordField.qml
 ProgressBar 1.0 ProgressBar.qml
 ProgressCircle 1.0 ProgressCircle.qml
 PullDownMenu 1.0 PullDownMenu.qml
-RegExpValidator 1.0 RegExpValidator.qml
 RemorseItem 1.0 RemorseItem.qml
 RemorsePopup 1.0 RemorsePopup.qml
 RemoveAnimation 1.0 RemoveAnimation.qml

@@ -20,6 +20,8 @@
 #include "plugin.h"
 #include "declarativepagestatus.h"
 #include "declarativepagestackaction.h"
+#include "declarativedock.h"
+#include "declarativetouchinteraction.h"
 #include "declarativetruncationmode.h"
 #include "declarativewindow.h"
 #include "kremniumtheme.h"
@@ -29,6 +31,9 @@
 #include "silicaformat.h"
 #include "silicabusyindicatorsize.h"
 #include "buttonlayoutattached.h"
+#include "declarativebuttonlayout.h"
+#include "declarativeregexpvalidator.h"
+#include "enterkeyattached.h"
 #include "themeimageprovider.h"
 #include <QtQml>
 #include <QScreen>
@@ -69,8 +74,14 @@ void QQuickKremniumControlsExtensionPlugin::registerTypes(const char* uri)
     qmlRegisterUncreatableMetaObject(SilicaCover::staticMetaObject, uri, 1, 0, "Cover", "Not creatable as it is an enum type");
     qmlRegisterUncreatableMetaObject(SilicaBusyIndicatorSize::staticMetaObject, uri, 1, 0, "BusyIndicatorSize", "Not creatable as it is an enum type");
     qmlRegisterUncreatableMetaObject(DeclarativePageStackAction::staticMetaObject, uri, 1, 0, "PageStackAction", "Not creatable as it is an enum type");
+    qmlRegisterUncreatableMetaObject(DeclarativeDock::staticMetaObject, uri, 1, 0, "Dock", "Not creatable as it is an enum type");
+    qmlRegisterUncreatableMetaObject(DeclarativeTouchInteraction::staticMetaObject, uri, 1, 0, "TouchInteraction", "Not creatable as it is an enum type");
     qmlRegisterUncreatableType<DeclarativePageStatus>(uri, 1, 0, "PageStatus", "Not creatable as it is an enum type");
     qmlRegisterUncreatableType<DeclarativeTruncationMode>(uri, 1, 0, "TruncationMode", "Not creatable as it is an enum type");
+    qmlRegisterUncreatableType<EnterKey>(uri, 1, 0, "EnterKey", "EnterKey is an attached property");
+    qmlRegisterType<DeclarativeButtonLayout>(uri, 1, 0, "ButtonLayout");
+    qmlRegisterType<DeclarativeRegExpValidator>(uri, 1, 0, "RegExpValidator");
+
     qmlRegisterType<DeclarativeWindow>(uri, 1, 0, "KremniumWindow");
     qmlRegisterSingletonType<SilicaScreen>(uri, 1, 0, "Screen", [](QQmlEngine *engine, QJSEngine *) -> QObject * {
         return new SilicaScreen(engine);

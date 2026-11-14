@@ -1,30 +1,48 @@
-/*
- * Copyright (C) 2025 Chupligin Sergey <neochapay@gmail.com>
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Library General Public
- * License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Library General Public License for more details.
- *
- * You should have received a copy of the GNU Library General Public License
- * along with this library; see the file COPYING.LIB.  If not, write to
- * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA 02110-1301, USA.
- */
+import QtQuick 2.0
+import Sailfish.Silica 1.0
 
-// NOT IMPLEMENTED!!!
+MouseArea {
+    id: root
+    property string text
+    property bool down: pressed && containsMouse
+    property bool highlighted: down
+    property color color: Theme.primaryColor
+    property int layoutDirection: Qt.LeftToRight
+    property alias icon: iconImage
+    property bool preferredWidth: false
 
-import QtQuick
-import QtQuick.Controls
+    implicitWidth: Math.max(Theme.buttonWidthMedium, contentRow.implicitWidth + Theme.paddingLarge*2)
+    implicitHeight: Theme.itemSizeSmall
+    width: implicitWidth
+    height: implicitHeight
 
-import Nemo
-import Nemo.Controls
+    Rectangle {
+        anchors.fill: parent
+        radius: Theme.paddingSmall
+        color: root.down ? Theme.highlightBackgroundColor : Theme.secondaryHighlightColor
+        opacity: root.enabled ? 0.4 : 0.2
+    }
 
-Button{
+    Row {
+        id: contentRow
+        anchors.centerIn: parent
+        spacing: Theme.paddingSmall
+        layoutDirection: root.layoutDirection
 
+        Image {
+            id: iconImage
+            visible: source !== "" && status !== Image.Null
+            width: visible ? Theme.iconSizeSmall : 0
+            height: Theme.iconSizeSmall
+            anchors.verticalCenter: parent.verticalCenter
+            fillMode: Image.PreserveAspectFit
+            property bool highlight: false
+        }
+        Label {
+            text: root.text
+            color: root.enabled ? Theme.primaryColor : Theme.secondaryColor
+            anchors.verticalCenter: parent.verticalCenter
+            font.pixelSize: Theme.fontSizeMedium
+        }
+    }
 }

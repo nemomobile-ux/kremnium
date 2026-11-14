@@ -4,5 +4,5 @@ import Sailfish.Silica 1.0
 TextSwitch {
     id: root
     property string iconSource
-    property alias icon: root.icon
+    // icon inherited from TextSwitch
 }

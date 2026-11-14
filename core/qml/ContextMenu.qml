@@ -22,7 +22,53 @@
 import QtQuick
 import QtQuick.Controls
 
-MouseArea{
-    property bool active
-    signal closed
+Item {
+    id: root
+    default property alias _content: menuColumn.data
+    property bool active: visible
+    property Item _parentItem
+    signal closed()
+    signal activated(int index)
+
+    visible: false
+    z: 1000
+    width: parent ? parent.width : implicitWidth
+    implicitHeight: menuColumn.implicitHeight + Theme.paddingSmall * 2
+    height: implicitHeight
+
+    Rectangle { anchors.fill: parent; color: Theme.highlightDimmerColor; opacity: 0.95 }
+
+    Column {
+        id: menuColumn
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: parent.top
+        anchors.topMargin: Theme.paddingSmall
+        spacing: 0
+    }
+
+    function open(item) {
+        _parentItem = item || parent
+        visible = true
+    }
+    function close() {
+        visible = false
+        closed()
+    }
+    function show(item) { open(item) }
+    function hide() { close() }
+
+    // detect clicks on menu items to emit activated
+    Component.onCompleted: {
+        for (var i = 0; i < menuColumn.children.length; ++i) {
+            (function(idx, child) {
+                if (child && child.clicked !== undefined) {
+                    var orig = child.clicked
+                    child.clicked.connect(function() { root.activated(idx); root.close() })
+                } else if (child && child.delayedClick !== undefined) {
+                    child.delayedClick.connect(function() { root.activated(idx); root.close() })
+                }
+            })(i, menuColumn.children[i])
+        }
+    }
 }
