@@ -123,6 +123,7 @@ public:
     Q_INVOKABLE QColor rgba(QColor color, float opacity);
 
     float pixelRatio() const;
+    Q_INVOKABLE QString highlightText(const QString &text, const QVariant &pattern, const QVariant &color) const;
     QString fontFamilyHeading() const;
     QString fontFamily() const;
     int fontSizeTiny() const;

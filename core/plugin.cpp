@@ -35,6 +35,7 @@
 #include "buttonlayoutattached.h"
 #include "declarativebuttonlayout.h"
 #include "declarativeregexpvalidator.h"
+#include "declarativenotice.h"
 #include "enterkeyattached.h"
 #include "themeimageprovider.h"
 #include <QtQml>
@@ -85,6 +86,7 @@ void QQuickKremniumControlsExtensionPlugin::registerTypes(const char* uri)
     qmlRegisterUncreatableType<EnterKey>(uri, 1, 0, "EnterKey", "EnterKey is an attached property");
     qmlRegisterType<DeclarativeButtonLayout>(uri, 1, 0, "ButtonLayout");
     qmlRegisterType<DeclarativeRegExpValidator>(uri, 1, 0, "RegExpValidator");
+    qmlRegisterType<DeclarativeNotice>(uri, 1, 0, "Notice");
 
     qmlRegisterType<DeclarativeWindow>(uri, 1, 0, "KremniumWindow");
     qmlRegisterSingletonType<SilicaScreen>(uri, 1, 0, "Screen", [](QQmlEngine *engine, QJSEngine *) -> QObject * {

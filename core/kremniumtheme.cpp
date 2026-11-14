@@ -21,6 +21,7 @@
 #include <sizing.h>
 
 #include "kremniumtheme.h"
+#include <QRegularExpression>
 
 KremniumTheme::KremniumTheme(QObject* parent)
     : QObject { parent }
@@ -450,4 +451,18 @@ int KremniumTheme::minimumPressHighlightTime() const
 float KremniumTheme::_webviewCustomLayoutWidthScalingFactor() const
 {
     return m__webviewCustomLayoutWidthScalingFactor;
+}
+
+QString KremniumTheme::highlightText(const QString &text, const QVariant &pattern, const QVariant &color) const
+{
+    QString pat = pattern.toString();
+    if (pat.isEmpty())
+        return text.toHtmlEscaped();
+    QString escaped = text.toHtmlEscaped();
+    QString patEsc = QRegularExpression::escape(pat);
+    QRegularExpression re(patEsc, QRegularExpression::CaseInsensitiveOption);
+    QColor c = color.value<QColor>();
+    if (!c.isValid() && color.canConvert<QString>()) c = QColor(color.toString());
+    QString col = c.isValid() ? c.name(QColor::HexArgb) : QStringLiteral("#ffffff");
+    return QString(escaped).replace(re, QStringLiteral("<font color='%1'>\\0</font>").arg(col));
 }

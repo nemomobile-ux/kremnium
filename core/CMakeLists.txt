@@ -6,6 +6,7 @@ SET(SOURCES
     declarativetruncationmode.cpp
     declarativebuttonlayout.cpp
     declarativeregexpvalidator.cpp
+    declarativenotice.cpp
     silicascreen.cpp)
 
 SET(HEADERS
@@ -27,7 +28,8 @@ SET(HEADERS
     buttonlayoutattached.h
     enterkeyattached.h
     declarativebuttonlayout.h
-    declarativeregexpvalidator.h)
+    declarativeregexpvalidator.h
+    declarativenotice.h)
 
 set(QML
     qml/AddAnimation.qml
@@ -72,7 +74,7 @@ set(QML
     qml/MenuItem.qml
     qml/MenuLabel.qml
     qml/MiniComboBox.qml
-    qml/Notice.qml
+    qml/Notices.qml
     qml/OpacityRampEffect.qml
     qml/OpacityRampEffectBase.qml
     qml/Page.qml
@@ -170,3 +172,7 @@ install(TARGETS kremniumplugin silicaprivateplugin
 
 install(DIRECTORY qml/
     DESTINATION ${QT_INSTALL_QML}/Sailfish/Silica)
+
+set_source_files_properties(qml/Notices.qml PROPERTIES
+    QT_QML_SINGLETON_TYPE TRUE
+)

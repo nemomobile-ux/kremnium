@@ -43,7 +43,7 @@ ListItem 1.0 ListItem.qml
 MenuItem 1.0 MenuItem.qml
 MenuLabel 1.0 MenuLabel.qml
 MiniComboBox 1.0 MiniComboBox.qml
-Notice 1.0 Notice.qml
+singleton Notices 1.0 Notices.qml
 OpacityRampEffect 1.0 OpacityRampEffect.qml
 OpacityRampEffectBase 1.0 OpacityRampEffectBase.qml
 Page 1.0 Page.qml
