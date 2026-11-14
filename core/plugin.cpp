@@ -24,6 +24,7 @@
 #include "declarativetouchinteraction.h"
 #include "declarativefocusbehavior.h"
 #include "declarativetexteditor.h"
+#include "declarativeopacityramp.h"
 #include "declarativetruncationmode.h"
 #include "declarativewindow.h"
 #include "kremniumtheme.h"
@@ -81,6 +82,7 @@ void QQuickKremniumControlsExtensionPlugin::registerTypes(const char* uri)
     qmlRegisterUncreatableMetaObject(DeclarativeTouchInteraction::staticMetaObject, uri, 1, 0, "TouchInteraction", "Not creatable as it is an enum type");
     qmlRegisterUncreatableMetaObject(DeclarativeFocusBehavior::staticMetaObject, uri, 1, 0, "FocusBehavior", "Not creatable as it is an enum type");
     qmlRegisterUncreatableMetaObject(DeclarativeTextEditor::staticMetaObject, uri, 1, 0, "TextEditor", "Not creatable as it is an enum type");
+    qmlRegisterUncreatableMetaObject(DeclarativeOpacityRamp::staticMetaObject, uri, 1, 0, "OpacityRamp", "Not creatable as it is an enum type");
     qmlRegisterUncreatableType<DeclarativePageStatus>(uri, 1, 0, "PageStatus", "Not creatable as it is an enum type");
     qmlRegisterUncreatableType<DeclarativeTruncationMode>(uri, 1, 0, "TruncationMode", "Not creatable as it is an enum type");
     qmlRegisterUncreatableType<EnterKey>(uri, 1, 0, "EnterKey", "EnterKey is an attached property");

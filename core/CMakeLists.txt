@@ -19,6 +19,7 @@ SET(HEADERS
     declarativetouchinteraction.h
     declarativefocusbehavior.h
     declarativetexteditor.h
+    declarativeopacityramp.h
     declarativewindow.h
     silicascreen.h
     silicaorientation.h
