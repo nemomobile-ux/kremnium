@@ -56,9 +56,16 @@ Item {
         anchors.fill: parent
         z: -1
     }
+    // Silica background items are often placed as children and may anchor to contentItem
     onBackgroundChanged: {
-        if (background) {
-            background.parent = root
+        if (background && background.parent !== root) {
+            try { background.parent = root } catch(e) {}
+            background.z = -1
+        }
+    }
+    Component.onCompleted: {
+        if (background && background.parent !== root) {
+            try { background.parent = root } catch(e) {}
             background.z = -1
         }
     }
