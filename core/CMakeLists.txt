@@ -11,6 +11,7 @@ SET(HEADERS
     kremniumtheme.h
     declarativepagestatus.h
     declarativetruncationmode.h
+    declarativepagestackaction.h
     declarativewindow.h
     silicascreen.h
     silicaorientation.h

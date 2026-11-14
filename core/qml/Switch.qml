@@ -8,9 +8,7 @@ MouseArea {
     property bool down: pressed && containsMouse
     property bool highlighted: down
     property bool busy: false
-    property alias icon: iconItem
-
-    Item { id: iconItem; property url source; property bool highlight; visible: false }
+    property alias icon: iconImage
 
     implicitWidth: Theme.iconSizeMedium
     implicitHeight: Theme.iconSizeSmall
@@ -33,5 +31,12 @@ MouseArea {
         x: root.checked ? parent.width - width - 2 : 2
         color: "white"
         Behavior on x { NumberAnimation { duration: 120 } }
+    }
+
+    Image {
+        id: iconImage
+        visible: false
+        width: 0; height: 0
+        property bool highlight: false
     }
 }

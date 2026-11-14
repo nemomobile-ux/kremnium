@@ -19,6 +19,7 @@
 
 #include "plugin.h"
 #include "declarativepagestatus.h"
+#include "declarativepagestackaction.h"
 #include "declarativetruncationmode.h"
 #include "declarativewindow.h"
 #include "kremniumtheme.h"
@@ -67,6 +68,7 @@ void QQuickKremniumControlsExtensionPlugin::registerTypes(const char* uri)
     qmlRegisterUncreatableMetaObject(SilicaOrientation::staticMetaObject, uri, 1, 0, "Orientation", "Not creatable as it is an enum type");
     qmlRegisterUncreatableMetaObject(SilicaCover::staticMetaObject, uri, 1, 0, "Cover", "Not creatable as it is an enum type");
     qmlRegisterUncreatableMetaObject(SilicaBusyIndicatorSize::staticMetaObject, uri, 1, 0, "BusyIndicatorSize", "Not creatable as it is an enum type");
+    qmlRegisterUncreatableMetaObject(DeclarativePageStackAction::staticMetaObject, uri, 1, 0, "PageStackAction", "Not creatable as it is an enum type");
     qmlRegisterUncreatableType<DeclarativePageStatus>(uri, 1, 0, "PageStatus", "Not creatable as it is an enum type");
     qmlRegisterUncreatableType<DeclarativeTruncationMode>(uri, 1, 0, "TruncationMode", "Not creatable as it is an enum type");
     qmlRegisterType<DeclarativeWindow>(uri, 1, 0, "KremniumWindow");

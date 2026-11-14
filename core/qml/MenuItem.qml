@@ -29,11 +29,11 @@ MouseArea {
     height: implicitHeight
 
     property alias text: menuItemText.text
+    property string description
     property bool down: pressed && containsMouse
     property bool highlighted: down || activeHighlight
     property bool activeHighlight: false
-    property bool enabled: true
-    property color color: enabled ? (highlighted ? Theme.highlightColor : Theme.primaryColor) : Theme.secondaryColor
+    property color color: root.enabled ? (highlighted ? Theme.highlightColor : Theme.primaryColor) : Theme.secondaryColor
 
     signal delayedClick()
 
