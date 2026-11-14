@@ -54,6 +54,9 @@ NemoPage {
             pop: function(p, op) { return s.pop(p, op) },
             replace: function(p, pr, op) { return s.replace(p, pr, op) },
             clear: function() { return s.clear() },
+            animatorPush: function(p, pr, op) { return s.animatorPush ? s.animatorPush(p, pr, op) : s.push(p, pr, op) },
+            animatorPop: function(p, op) { return s.animatorPop ? s.animatorPop(p, op) : s.pop(p, op) },
+            animatorReplace: function(p, pr, op) { return s.animatorReplace ? s.animatorReplace(p, pr, op) : s.replace(p, pr, op) },
             _stack: s
         }
     }

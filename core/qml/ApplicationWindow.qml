@@ -79,6 +79,16 @@ NemoWindow {
         property Item currentPage: stackView.currentItem
         property alias busy: stackView.busy
 
+        function _makeAnimator(resultItem) {
+            var obj = Qt.createQmlObject('import QtQuick 2.0; QtObject { signal pageCompleted(var page); property var page: null }', pageStackItem, "PageStackAnimator")
+            obj.page = resultItem
+            Qt.callLater(function() {
+                try { obj.pageCompleted(resultItem ? resultItem : stackView.currentItem) } catch(e) {}
+                try { obj.destroy(5000) } catch(e) {}
+            })
+            return obj
+        }
+
         function push(page, properties, operation) {
             var item = stackView.push(page, properties === undefined ? {} : properties, operation)
             pageStackItem.currentPage = stackView.currentItem
@@ -97,6 +107,18 @@ NemoWindow {
         function clear() {
             stackView.clear()
             pageStackItem.currentPage = null
+        }
+        function animatorPush(page, properties, operation) {
+            var item = push(page, properties, operation)
+            return _makeAnimator(item ? item : stackView.currentItem)
+        }
+        function animatorPop(page, operation) {
+            var item = pop(page, operation)
+            return _makeAnimator(stackView.currentItem)
+        }
+        function animatorReplace(page, properties, operation) {
+            var item = replace(page, properties, operation)
+            return _makeAnimator(item ? item : stackView.currentItem)
         }
 
         StackView {
