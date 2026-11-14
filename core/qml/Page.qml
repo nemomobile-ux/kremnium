@@ -38,6 +38,7 @@ NemoPage {
     property bool showNavigationIndicator: true
     property bool backNavigation: true
     property bool highContrast: false
+    property var mainPage
     property color backgroundColor: "transparent"
 
     property var pageStack: {

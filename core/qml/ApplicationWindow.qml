@@ -29,6 +29,7 @@ NemoWindow {
 
     property var cover
     property var initialPage
+    property Item mainPage
     property int allowedOrientations: Qt.PortraitOrientation | Qt.LandscapeOrientation | Qt.InvertedPortraitOrientation | Qt.InvertedLandscapeOrientation
     property int defaultAllowedOrientations: allowedOrientations
     property int _defaultPageOrientations: 15 // Orientation.All
