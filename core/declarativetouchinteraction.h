@@ -4,9 +4,9 @@
 class DeclarativeTouchInteraction : public QObject {
     Q_OBJECT
 public:
-    enum InteractionMode { EdgeSwipe = 0, Swipe = 1, Pull = 2 };
-    Q_ENUM(InteractionMode)
-    enum Direction { Up = 0, Down = 1, Left = 2, Right = 3 };
+    enum Direction { Left = 0, Up = 1, Right = 2, Down = 3 };
     Q_ENUM(Direction)
+    enum Mode { Swipe = 0, EdgeSwipe = 1, Pull = 2 };
+    Q_ENUM(Mode)
 };
 #endif

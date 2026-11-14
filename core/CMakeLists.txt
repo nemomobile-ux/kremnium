@@ -16,6 +16,8 @@ SET(HEADERS
     declarativepagestackaction.h
     declarativedock.h
     declarativetouchinteraction.h
+    declarativefocusbehavior.h
+    declarativetexteditor.h
     declarativewindow.h
     silicascreen.h
     silicaorientation.h
