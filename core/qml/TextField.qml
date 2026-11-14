@@ -26,8 +26,6 @@ Item {
     property int backgroundStyle: 0
     property var background
     property int inputMethodHints: Qt.ImhNone
-    property int wrapMode: TextInput.NoWrap
-    property int textMargin: Theme.horizontalPageMargin
     property int echoMode: TextInput.Normal
     property alias font: input.font
     property alias readOnly: input.readOnly
@@ -39,6 +37,8 @@ Item {
     property alias horizontalAlignment: input.horizontalAlignment
     property alias inputMethodComposing: input.inputMethodComposing
     property string _editorPlaceholderText: placeholderText
+    property int wrapMode: TextInput.NoWrap
+    property int textMargin: Theme.horizontalPageMargin
 
     property alias contentItem: input
     property alias _editor: input
@@ -46,53 +46,105 @@ Item {
     signal accepted()
 
     width: parent ? parent.width : implicitWidth
-    implicitHeight: Math.max(Theme.itemSizeSmall, input.implicitHeight + textTopMargin + Theme.paddingMedium)
+    implicitHeight: labelArea.height + inputArea.implicitHeight + Theme.paddingSmall
     height: implicitHeight
 
     onActiveFocusChanged: if (activeFocus) input.forceActiveFocus()
 
     Item {
         id: bgHolder
-        anchors.fill: parent
+        anchors.fill: inputArea
         z: -1
     }
-    // Silica background items are often placed as children and may anchor to contentItem
     onBackgroundChanged: {
-        if (background && background.parent !== root) {
+        if (background) {
             try { background.parent = root } catch(e) {}
             background.z = -1
         }
     }
+
+    Item {
+        id: labelArea
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: parent.top
+        height: labelLoader.status === Loader.Ready && labelLoader.item ? labelLoader.item.implicitHeight || labelLoader.item.height : (labelText.visible ? labelText.implicitHeight : 0)
+
+        Label {
+            id: labelText
+            anchors.left: parent.left
+            anchors.leftMargin: root.textLeftMargin
+            anchors.right: parent.right
+            anchors.rightMargin: root.textRightMargin
+            text: root.label
+            visible: !labelLoader.item && root.label.length > 0 && (root.labelVisible !== 0 && root.labelVisible !== false)
+            color: Theme.secondaryHighlightColor
+            font.pixelSize: Theme.fontSizeExtraSmall
+            elide: Text.ElideRight
+        }
+
+        Loader {
+            id: labelLoader
+            anchors.left: parent.left
+            anchors.right: parent.right
+            sourceComponent: (root.labelComponent && typeof root.labelComponent === "object" && root.labelComponent.createObject !== undefined) ? root.labelComponent : null
+            onLoaded: if (item) { item.parent = labelArea; item.anchors.left = labelArea.left; item.anchors.right = labelArea.right }
+        }
+    }
+
+    // handle inline Item assigned as labelComponent
+    onLabelComponentChanged: {
+        if (labelComponent && labelComponent.createObject === undefined && labelComponent.parent !== undefined) {
+            try {
+                labelComponent.parent = labelArea
+                labelComponent.anchors.left = labelArea.left
+                labelComponent.anchors.right = labelArea.right
+            } catch(e) {}
+        }
+    }
+
+    Item {
+        id: inputArea
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: labelArea.bottom
+        implicitHeight: Math.max(Theme.itemSizeSmall, input.implicitHeight + root.textTopMargin + Theme.paddingMedium)
+        height: implicitHeight
+
+        Rectangle {
+            anchors.fill: parent
+            z: -2
+            visible: !root.background
+            color: Theme.highlightBackgroundColor
+            opacity: 0.1
+            radius: 4
+        }
+
+        Item { id: leftHolder; anchors.left: parent.left; anchors.leftMargin: Theme.paddingSmall; anchors.verticalCenter: input.verticalCenter; width: root.leftItem ? root.leftItem.width : 0; height: root.leftItem ? root.leftItem.height : 0; data: root.leftItem ? [root.leftItem] : [] }
+        Item { id: rightHolder; anchors.right: parent.right; anchors.rightMargin: Theme.paddingSmall; anchors.verticalCenter: input.verticalCenter; width: root.rightItem ? root.rightItem.width : 0; height: root.rightItem ? root.rightItem.height : 0; data: root.rightItem ? [root.rightItem] : [] }
+
+        TextInput {
+            id: input
+            anchors.left: leftHolder.right
+            anchors.right: rightHolder.left
+            anchors.leftMargin: root.textLeftMargin
+            anchors.rightMargin: root.textRightMargin
+            y: root.textTopMargin
+            color: root.color
+            font.pixelSize: Theme.fontSizeMedium
+            echoMode: root.echoMode
+            inputMethodHints: root.inputMethodHints
+            onAccepted: root.accepted()
+        }
+    }
+
     Component.onCompleted: {
-        if (background && background.parent !== root) {
-            try { background.parent = root } catch(e) {}
-            background.z = -1
+        if (background) {
+            try { background.parent = root; background.z = -1 } catch(e) {}
         }
-    }
-    Rectangle {
-        anchors.fill: parent
-        z: -2
-        visible: !root.background
-        color: Theme.highlightBackgroundColor
-        opacity: 0.1
-        radius: 4
-    }
-
-    Item { id: leftHolder; anchors.left: parent.left; anchors.leftMargin: Theme.paddingSmall; anchors.verticalCenter: input.verticalCenter; width: root.leftItem ? root.leftItem.width : 0; height: root.leftItem ? root.leftItem.height : 0; data: root.leftItem ? [root.leftItem] : [] }
-    Item { id: rightHolder; anchors.right: parent.right; anchors.rightMargin: Theme.paddingSmall; anchors.verticalCenter: input.verticalCenter; width: root.rightItem ? root.rightItem.width : 0; height: root.rightItem ? root.rightItem.height : 0; data: root.rightItem ? [root.rightItem] : [] }
-
-    TextInput {
-        id: input
-        anchors.left: leftHolder.right
-        anchors.right: rightHolder.left
-        anchors.leftMargin: root.textLeftMargin
-        anchors.rightMargin: root.textRightMargin
-        y: root.textTopMargin
-        color: root.color
-        font.pixelSize: Theme.fontSizeMedium
-        echoMode: root.echoMode
-        inputMethodHints: root.inputMethodHints
-        onAccepted: root.accepted()
+        if (labelComponent && labelComponent.createObject === undefined && labelComponent.parent !== undefined) {
+            try { labelComponent.parent = labelArea; labelComponent.anchors.left = labelArea.left; labelComponent.anchors.right = labelArea.right } catch(e) {}
+        }
     }
 
     function forceActiveFocus() { input.forceActiveFocus() }
