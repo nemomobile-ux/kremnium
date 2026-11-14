@@ -15,10 +15,10 @@ Item {
 
     Rectangle {
         anchors.centerIn: parent
-        width: Math.min(parent.width, parent.height) * Math.max(0.1, root.radius)
+        width: Math.min(parent.width, parent.height) * Math.max(0.1, (root.radius !== undefined && !isNaN(root.radius)) ? root.radius : 0.5)
         height: width
         radius: width / 2
         color: root.color
-        opacity: (root.dimmed ? 0.3 : 1.0) * root.brightness
+        opacity: (root.dimmed ? 0.3 : 1.0) * ((root.brightness !== undefined && !isNaN(root.brightness)) ? root.brightness : 1.0)
     }
 }

@@ -8,17 +8,21 @@ Item {
     property alias label: labelText.text
     property bool canHide: true
     property bool focusOutBehavior: true
+    property int textLeftMargin: Theme.horizontalPageMargin
+    property int textRightMargin: Theme.horizontalPageMargin
+    property int textMargin: Theme.horizontalPageMargin
 
     function forceActiveFocus() { input.forceActiveFocus() }
     onActiveFocusChanged: if (activeFocus) input.forceActiveFocus()
     implicitHeight: Theme.itemSizeSmall
     width: parent ? parent.width : implicitWidth
     height: implicitHeight
+
     TextInput {
         id: input
         anchors.fill: parent
-        anchors.leftMargin: Theme.horizontalPageMargin
-        anchors.rightMargin: Theme.horizontalPageMargin
+        anchors.leftMargin: root.textLeftMargin
+        anchors.rightMargin: root.textRightMargin
         verticalAlignment: Text.AlignVCenter
         color: Theme.primaryColor
     }

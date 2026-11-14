@@ -26,6 +26,9 @@ Column {
 
     signal clicked()
 
+    Component.onCompleted: { if (slider.value === undefined || isNaN(Number(slider.value))) { try { slider.value = 0 } catch(e) { try { sliderItem.value = 0 } catch(e2) {} } } }
+    onValueChanged: { if (value === undefined || isNaN(Number(value))) value = 0 }
+
     Slider{
         id: slider
         width: parent.width
