@@ -121,6 +121,32 @@ NemoWindow {
             return _makeAnimator(item ? item : stackView.currentItem)
         }
 
+        property var _attachedPage: null
+        property var _currentContainer: ({ attachedContainer: null })
+
+        function pushAttached(page, properties) {
+            _attachedPage = page
+            return page
+        }
+        function popAttached(page, operation) {
+            _attachedPage = null
+            return null
+        }
+        function navigateForward(operation) {
+            // minimal: try to push attached page if present
+            if (_attachedPage) {
+                var p = _attachedPage
+                _attachedPage = null
+                return push(p, {}, operation)
+            }
+            return null
+        }
+        function navigateBack(operation) {
+            return pop(undefined, operation)
+        }
+        property Item previousPage: depth > 1 ? null : null
+        property Item nextPage: _attachedPage ? null : null
+
         StackView {
             id: stackView
             anchors.fill: parent

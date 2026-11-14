@@ -57,6 +57,10 @@ NemoPage {
             animatorPush: function(p, pr, op) { return s.animatorPush ? s.animatorPush(p, pr, op) : s.push(p, pr, op) },
             animatorPop: function(p, op) { return s.animatorPop ? s.animatorPop(p, op) : s.pop(p, op) },
             animatorReplace: function(p, pr, op) { return s.animatorReplace ? s.animatorReplace(p, pr, op) : s.replace(p, pr, op) },
+            pushAttached: function(p, pr) { return s.pushAttached ? s.pushAttached(p, pr) : null },
+            popAttached: function(p, op) { return s.popAttached ? s.popAttached(p, op) : null },
+            navigateForward: function(op) { return s.navigateForward ? s.navigateForward(op) : null },
+            navigateBack: function(op) { return s.navigateBack ? s.navigateBack(op) : (s.pop ? s.pop(undefined, op) : null) },
             _stack: s
         }
     }
