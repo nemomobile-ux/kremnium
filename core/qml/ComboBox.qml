@@ -6,15 +6,13 @@ Item {
     property string label
     property string value
     property string description
-    property alias currentIndex: internal.currentIndex
+    property int currentIndex: -1
     property var currentItem: null
-    property alias menu: menuLoader.sourceComponent
+    property var menu: null
     property bool enabled: true
 
     signal activated(int index)
     signal clicked()
-
-    QtObject { id: internal; property int currentIndex: -1 }
 
     implicitHeight: Theme.itemSizeSmall
     width: parent ? parent.width : implicitWidth
@@ -27,33 +25,74 @@ Item {
         anchors.leftMargin: Theme.horizontalPageMargin
         anchors.verticalCenter: parent.verticalCenter
         spacing: 2
-        Label { text: root.label; color: Theme.secondaryHighlightColor; font.pixelSize: Theme.fontSizeExtraSmall }
-        Label { text: root.value; color: Theme.primaryColor }
+        Label { id: labelLabel; text: root.label; color: Theme.secondaryHighlightColor; font.pixelSize: Theme.fontSizeExtraSmall }
+        Label { id: valueLabel; text: root.value; color: Theme.primaryColor }
         Label { text: root.description; visible: text.length>0; color: Theme.secondaryColor; font.pixelSize: Theme.fontSizeExtraSmall }
     }
 
-    Loader {
-        id: menuLoader
-        active: true
-        visible: false
-        onLoaded: {
-            if (item) {
-                if (item.activated) item.activated.connect(function(idx) { internal.currentIndex = idx; root.activated(idx) })
-                if (item.parent !== root) item.parent = root
+    property Item _menuItem: null
+
+    function _menuItems() {
+        if (!_menuItem) return []
+        // our ContextMenu stores items in _content/menuColumn
+        try { if (_menuItem._content && _menuItem._content.children) return _menuItem._content.children } catch(e) {}
+        try { if (_menuItem.children && _menuItem.children.length > 0) return _menuItem.children } catch(e) {}
+        return []
+    }
+
+    function _syncFromIndex() {
+        var items = _menuItems()
+        if (currentIndex >= 0 && currentIndex < items.length) {
+            root.currentItem = items[currentIndex]
+            if (items[currentIndex] && items[currentIndex].text !== undefined)
+                root.value = items[currentIndex].text
+        } else if (currentIndex < 0) {
+            root.currentItem = null
+        }
+    }
+
+    function _connectMenu(m) {
+        if (!m) return
+        _menuItem = m
+        // keep declared parent for inline menu instances to preserve scope/placement expectations
+        try {
+            if (m.activated) m.activated.connect(function(idx) { root.currentIndex = idx; root.activated(idx); root._syncFromIndex() })
+        } catch(e) {}
+        // initialize
+        if (root.currentIndex < 0) {
+            root.currentIndex = 0
+        }
+        _syncFromIndex()
+    }
+
+    function _handleMenuChanged() {
+        if (!menu) return
+        if (menu.createObject) {
+            var m = menu.createObject(root)
+            _connectMenu(m)
+        } else {
+            _connectMenu(menu)
+        }
+    }
+
+    onMenuChanged: _handleMenuChanged()
+
+    onCurrentIndexChanged: _syncFromIndex()
+
+    MouseArea {
+        anchors.fill: parent
+        enabled: root.enabled
+        onClicked: {
+            root.clicked()
+            if (root._menuItem) {
+                try { if (root._menuItem.open) root._menuItem.open(root); else root._menuItem.visible = true } catch(e) { root._menuItem.visible = true }
+                root._menuItem.z = 1000
+                root._menuItem.width = root.width
             }
         }
     }
 
-    MouseArea {
-        anchors.fill: parent
-        onClicked: {
-            root.clicked()
-            if (menuLoader.item) {
-                if (menuLoader.item.open) menuLoader.item.open(root)
-                menuLoader.item.visible = true
-                menuLoader.item.z = 1000
-                menuLoader.item.width = root.width
-            }
-        }
+    Component.onCompleted: {
+        if (menu) _handleMenuChanged()
     }
 }

@@ -25,6 +25,7 @@ import QtQuick.Controls
 Item {
     id: root
     default property alias _content: menuColumn.data
+    property alias menuItems: menuColumn.children
     property bool active: visible
     property Item _parentItem
     signal closed()
