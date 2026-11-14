@@ -174,7 +174,7 @@ NemoWindow {
         Loader {
             id: coverLoader
             anchors.fill: parent
-            active: applicationWindow.cover !== null && applicationWindow.cover !== undefined && (typeof applicationWindow.cover === "string" || applicationWindow.cover instanceof String || (applicationWindow.cover && applicationWindow.cover.createObject))
+            active: applicationWindow.cover !== null && applicationWindow.cover !== undefined && (typeof applicationWindow.cover === "string" || applicationWindow.cover instanceof String || !!(applicationWindow.cover && applicationWindow.cover.createObject))
             sourceComponent: (applicationWindow.cover && applicationWindow.cover.createObject) ? applicationWindow.cover : null
             source: (typeof applicationWindow.cover === "string" || applicationWindow.cover instanceof String) ? applicationWindow.cover : ""
             onLoaded: {
