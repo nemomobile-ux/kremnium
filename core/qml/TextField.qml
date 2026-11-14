@@ -1,8 +1,10 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 
-TextInput {
+Item {
     id: root
+
+    property alias text: input.text
     property string label
     property string placeholderText
     property string description
@@ -24,12 +26,72 @@ TextInput {
     property int backgroundStyle: 0
     property var background
     property int inputMethodHints: Qt.ImhNone
+    property int wrapMode: TextInput.NoWrap
+    property int textMargin: Theme.horizontalPageMargin
+    property int echoMode: TextInput.Normal
+    property alias font: input.font
+    property alias readOnly: input.readOnly
+    property alias validator: input.validator
+    property alias cursorPosition: input.cursorPosition
+    property alias selectionStart: input.selectionStart
+    property alias selectionEnd: input.selectionEnd
+    property alias selectedText: input.selectedText
+    property alias horizontalAlignment: input.horizontalAlignment
+    property alias inputMethodComposing: input.inputMethodComposing
     property string _editorPlaceholderText: placeholderText
-    echoMode: TextInput.Normal
-    font.pixelSize: Theme.fontSizeMedium
+
+    property alias contentItem: input
+    property alias _editor: input
+
+    signal accepted()
+
     width: parent ? parent.width : implicitWidth
-    height: Math.max(Theme.itemSizeSmall, implicitHeight + Theme.paddingMedium)
-    Rectangle { anchors.fill: parent; z: -1; color: Theme.highlightBackgroundColor; opacity: 0.1; radius: 4 }
-    Item { id: _rightHolder; anchors.right: parent.right; anchors.verticalCenter: parent.verticalCenter; width: root.rightItem ? root.rightItem.width : 0; height: root.rightItem ? root.rightItem.height : 0 }
-    Item { id: _leftHolder; anchors.left: parent.left; anchors.verticalCenter: parent.verticalCenter; width: root.leftItem ? root.leftItem.width : 0; height: root.leftItem ? root.leftItem.height : 0 }
+    implicitHeight: Math.max(Theme.itemSizeSmall, input.implicitHeight + textTopMargin + Theme.paddingMedium)
+    height: implicitHeight
+
+    onActiveFocusChanged: if (activeFocus) input.forceActiveFocus()
+
+    Item {
+        id: bgHolder
+        anchors.fill: parent
+        z: -1
+    }
+    onBackgroundChanged: {
+        if (background) {
+            background.parent = root
+            background.z = -1
+        }
+    }
+    Rectangle {
+        anchors.fill: parent
+        z: -2
+        visible: !root.background
+        color: Theme.highlightBackgroundColor
+        opacity: 0.1
+        radius: 4
+    }
+
+    Item { id: leftHolder; anchors.left: parent.left; anchors.leftMargin: Theme.paddingSmall; anchors.verticalCenter: input.verticalCenter; width: root.leftItem ? root.leftItem.width : 0; height: root.leftItem ? root.leftItem.height : 0; data: root.leftItem ? [root.leftItem] : [] }
+    Item { id: rightHolder; anchors.right: parent.right; anchors.rightMargin: Theme.paddingSmall; anchors.verticalCenter: input.verticalCenter; width: root.rightItem ? root.rightItem.width : 0; height: root.rightItem ? root.rightItem.height : 0; data: root.rightItem ? [root.rightItem] : [] }
+
+    TextInput {
+        id: input
+        anchors.left: leftHolder.right
+        anchors.right: rightHolder.left
+        anchors.leftMargin: root.textLeftMargin
+        anchors.rightMargin: root.textRightMargin
+        y: root.textTopMargin
+        color: root.color
+        font.pixelSize: Theme.fontSizeMedium
+        echoMode: root.echoMode
+        inputMethodHints: root.inputMethodHints
+        onAccepted: root.accepted()
+    }
+
+    function forceActiveFocus() { input.forceActiveFocus() }
+    function select(start, end) { input.select(start, end) }
+    function selectAll() { input.selectAll() }
+    function copy() { input.copy() }
+    function paste() { input.paste() }
+    function cut() { input.cut() }
 }
