@@ -25,8 +25,10 @@ BackgroundItem {
 
     property real contentHeight: Theme.itemSizeSmall
     property Component menu
-    property bool menuOpen: false
+    property bool menuOpen: contextMenu !== null && (contextMenu.active || contextMenu.visible)
     property bool highlighted: down || menuOpen
+    property var contextMenu: null
+    property Item _menuItem: contextMenu
 
     implicitWidth: parent ? parent.width : Screen.width
     implicitHeight: contentHeight
@@ -37,7 +39,6 @@ BackgroundItem {
 
     function animateRemoval(callback) {
         _remorseActive = true
-        removalAnim.target = listItem
         removalAnim._cb = callback
         removalAnim.start()
     }
@@ -45,13 +46,12 @@ BackgroundItem {
     SequentialAnimation {
         id: removalAnim
         property var _cb
-        NumberAnimation { target: null; property: "height"; to: 0; duration: 200; easing.type: Easing.InOutQuad }
+        NumberAnimation { target: listItem; property: "height"; to: 0; duration: 200; easing.type: Easing.InOutQuad }
         ScriptAction { script: { if (removalAnim._cb) removalAnim._cb(); listItem._remorseActive = false } }
-        PropertyAction { property: "height"; value: listItem.contentHeight }
+        PropertyAction { target: listItem; property: "height"; value: listItem.contentHeight }
     }
 
     function remorseAction(text, callback, timeout) {
-        // flexible args: (callback) or (text, callback) or (text, callback, timeout)
         var t = "Deleted", cb = null, to = undefined
         if (typeof text === "function" || (text && text.trigger)) { cb = text; to = callback }
         else { t = text; cb = callback; to = timeout }
@@ -62,9 +62,16 @@ BackgroundItem {
         return remorseAction(text, callback, timeout)
     }
 
-    onPressAndHold: {
-        if (menu) {
-            menuOpen = true
+    function _openMenu() {
+        if (!menu || contextMenu) return
+        contextMenu = menu.createObject(listItem, { "item": listItem })
+        if (contextMenu) {
+            try { if (contextMenu.closed) contextMenu.closed.connect(function() { contextMenu = null }) } catch(e) {}
+            try { if (contextMenu.open) contextMenu.open(listItem); else contextMenu.visible = true } catch(e) { contextMenu.visible = true }
         }
+    }
+
+    onPressAndHold: {
+        _openMenu()
     }
 }
