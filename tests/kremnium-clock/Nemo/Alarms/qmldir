@@ -1,0 +1,4 @@
+module Nemo.Alarms
+AlarmsModel 1.0 AlarmsModel.qml
+EnabledAlarmsProxyModel 1.0 EnabledAlarmsProxyModel.qml
+Alarm 1.0 Alarm.qml

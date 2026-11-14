@@ -1,0 +1,3 @@
+module Sailfish.Timezone
+Dummy 1.0 Dummy.qml
+TimezoneLocalizer 1.0 TimezoneLocalizer.qml

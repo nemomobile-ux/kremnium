@@ -17,15 +17,25 @@
  * Boston, MA 02110-1301, USA.
  */
 
-// NOT IMPLEMENTED!!!
+import QtQuick 2.0
+import Sailfish.Silica 1.0
 
-import QtQuick
-import QtQuick.Controls
-
-MouseArea{
+BackgroundItem {
     id: listItem
 
-    property alias contentHeight: listItem.height
-    property var menu
-    parent: listItem.ListView.view
+    property real contentHeight: Theme.itemSizeSmall
+    property Component menu
+    property bool menuOpen: false
+    property bool highlighted: down || menuOpen
+
+    implicitWidth: parent ? parent.width : Screen.width
+    implicitHeight: contentHeight
+    width: parent ? parent.width : implicitWidth
+    height: contentHeight
+
+    onPressAndHold: {
+        if (menu) {
+            menuOpen = true
+        }
+    }
 }

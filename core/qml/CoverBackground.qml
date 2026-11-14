@@ -17,11 +17,29 @@
  * Boston, MA 02110-1301, USA.
  */
 
-// NOT IMPLEMENTED!!!
+import QtQuick 2.0
+import Sailfish.Silica 1.0
 
-import QtQuick
-import QtQuick.Controls
+Rectangle {
+    id: root
+    anchors.fill: parent
+    color: Theme.highlightBackgroundColor
+    default property alias _content: contentItem.data
+    property bool allowResize: false
+    property int status: 0
+    property alias coverActionArea: _coverActionArea
 
-Item {
-    visible: false
+    Item {
+        id: contentItem
+        anchors.fill: parent
+    }
+
+    Item {
+        id: _coverActionArea
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        height: 0
+        visible: false
+    }
 }

@@ -1,0 +1,4 @@
+module com.jolla.clock.private
+Dummy 1.0 Dummy.qml
+TimerCircle 1.0 TimerCircle.qml
+ElapsedTimer 1.0 ElapsedTimer.qml

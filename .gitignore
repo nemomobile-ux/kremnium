@@ -23,3 +23,5 @@ debug*.list
 *.txt.user*
 build/
 *_autogen*
+
+build-m1/

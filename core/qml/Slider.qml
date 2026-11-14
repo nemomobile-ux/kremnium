@@ -34,37 +34,37 @@ Column {
     property alias minimumValue: slider.from
     property alias stepSize: slider.stepSize
     property alias value: slider.value
+    property real sliderValue: value
 
     property alias label: sliderlabel.text
-
     property string valueText
+    property bool handleVisible: true
+    property bool down: slider.pressed
+    property bool highlighted: down
+    property bool animateValue: false
 
-/*
-https://sailfishos.org/develop/docs/silica/qml-sailfishsilica-sailfish-silica-slider.html/
-
-Properties
-animateValue : bool
-down : bool
-enabled : bool
-handleVisible : bool
-highlighted : bool
-label : string
-maximumValue : real
-minimumValue : real
-sliderValue : real
-stepSize : real
-value : real
-valueText : string
-*/
+    signal clicked()
 
     Slider{
         id: slider
         width: parent.width
+        opacity: sliderItem.handleVisible ? 1.0 : 0.5
     }
 
     Label{
         id: sliderlabel
         width: parent.width
         horizontalAlignment: Text.AlignHCenter
+        visible: text.length > 0
+    }
+
+    Label{
+        id: valueLabel
+        width: parent.width
+        horizontalAlignment: Text.AlignHCenter
+        visible: sliderItem.valueText.length > 0
+        text: sliderItem.valueText
+        color: Theme.secondaryHighlightColor !== undefined ? Theme.secondaryHighlightColor : Theme.secondaryColor
+        font.pixelSize: Theme.fontSizeSmall
     }
 }

@@ -22,14 +22,37 @@
 import QtQuick
 import QtQuick.Controls
 
-MouseArea{
-    width: parent.width
-    height: Theme.itemSizeLarge
+MouseArea {
+    id: root
+    width: parent ? parent.width : implicitWidth
+    implicitHeight: Theme.itemSizeSmall
+    height: implicitHeight
 
     property alias text: menuItemText.text
+    property bool down: pressed && containsMouse
+    property bool highlighted: down || activeHighlight
+    property bool activeHighlight: false
+    property bool enabled: true
+    property color color: enabled ? (highlighted ? Theme.highlightColor : Theme.primaryColor) : Theme.secondaryColor
 
-    Label{
+    signal delayedClick()
+
+    onClicked: {
+        delayedClick()
+    }
+
+    Rectangle {
+        anchors.fill: parent
+        color: Theme.highlightBackgroundColor
+        opacity: root.highlighted ? 0.3 : 0.0
+    }
+
+    Label {
         id: menuItemText
         anchors.centerIn: parent
+        width: parent.width - Theme.horizontalPageMargin * 2
+        horizontalAlignment: Text.AlignHCenter
+        color: root.color
+        elide: Text.ElideRight
     }
 }

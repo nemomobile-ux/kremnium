@@ -22,6 +22,42 @@
 import QtQuick
 import QtQuick.Controls
 
-Item{
+Item {
+    id: root
     property string text
+    property string hintText
+    property bool enabled: true
+    property real verticalOffset
+    property real horizontalOffset
+    property alias flickable: root._flickable
+    property var _flickable
+    visible: enabled
+    anchors.horizontalCenter: parent ? parent.horizontalCenter : undefined
+    width: parent ? parent.width - Theme.horizontalPageMargin*2 : implicitWidth
+    implicitHeight: column.implicitHeight
+    height: implicitHeight
+
+    Column {
+        id: column
+        width: parent.width
+        spacing: Theme.paddingMedium
+        Label {
+            width: parent.width
+            horizontalAlignment: Text.AlignHCenter
+            wrapMode: Text.Wrap
+            color: Theme.highlightColor
+            font.pixelSize: Theme.fontSizeExtraLarge
+            text: root.text
+            visible: text.length > 0
+        }
+        Label {
+            width: parent.width
+            horizontalAlignment: Text.AlignHCenter
+            wrapMode: Text.Wrap
+            color: Theme.secondaryHighlightColor
+            font.pixelSize: Theme.fontSizeSmall
+            text: root.hintText
+            visible: text.length > 0
+        }
+    }
 }

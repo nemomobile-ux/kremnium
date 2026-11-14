@@ -17,28 +17,58 @@
  * Boston, MA 02110-1301, USA.
  */
 
-import QtQuick
-import QtQuick.Controls
+import QtQuick 2.0
+import QtQuick.Controls 2.0
+import QtQuick.Window 2.0
 
 import Nemo
 import Nemo.Controls
 
 NemoPage {
     id: page
-    readonly property double backGestureThreshold: Theme.itemHeightLarge
 
-    property int status: pageStack ? StackView.status : StackView.Inactive
-    property variant headerTools
+    readonly property double backGestureThreshold: Theme.itemSizeLarge > 0 ? Theme.itemSizeLarge : 64
+    property int status: StackView.status
+    property var headerTools
+    property bool isPortrait: width <= height
+    property bool isLandscape: !isPortrait
+    property int orientation: isPortrait ? Qt.PortraitOrientation : Qt.LandscapeOrientation
+    property int allowedOrientations: Qt.PortraitOrientation | Qt.LandscapeOrientation | Qt.InvertedPortraitOrientation | Qt.InvertedLandscapeOrientation
+    property bool canNavigateForward: false
+    property bool showNavigationIndicator: true
+    property bool backNavigation: true
+    property bool highContrast: false
+    property color backgroundColor: "transparent"
 
-    default  property alias __content: content.data
+    property var pageStack: {
+        var w = page.Window.window
+        var s = (w && w.pageStack) ? w.pageStack : (StackView.view ? StackView.view : null)
+        if (!s) return null
+        if (s.currentPage) return s
+        // fallback proxy during initialization
+        return {
+            currentPage: page,
+            depth: s.depth ? s.depth : 1,
+            push: function(p, pr, op) { return s.push(p, pr, op) },
+            pop: function(p, op) { return s.pop(p, op) },
+            replace: function(p, pr, op) { return s.replace(p, pr, op) },
+            clear: function() { return s.clear() },
+            _stack: s
+        }
+    }
+
+    default property alias __content: content.data
+
+    clip: true
 
     headerTools: HeaderToolsLayout {
-        showBackButton: true;
+        showBackButton: true
         title: "Untitled"
     }
 
     Item {
         id: content
         anchors.fill: parent
+        clip: true
     }
 }

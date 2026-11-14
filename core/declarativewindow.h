@@ -7,7 +7,6 @@ class DeclarativeWindow : public QQuickItem {
     Q_OBJECT
 public:
     DeclarativeWindow();
-
 signals:
 private:
 

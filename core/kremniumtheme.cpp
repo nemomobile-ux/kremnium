@@ -26,12 +26,61 @@ KremniumTheme::KremniumTheme(QObject* parent)
     : QObject { parent }
     , m_theme(new Theme(this))
 {
+    m_fontFamilyHeading = m_theme->fontPath().isEmpty() ? QStringLiteral("sans-serif") : m_theme->fontPath();
+    m_fontFamily = m_fontFamilyHeading;
+    m_fontSizeTinyBase = m_theme->fontSizeTiny();
+    m_fontSizeExtraSmallBase = m_theme->fontSizeSmall();
+    m_fontSizeSmallBase = m_theme->fontSizeSmall();
+    m_fontSizeMediumBase = m_theme->fontSizeMedium();
+    m_fontSizeLargeBase = m_theme->fontSizeLarge();
+    m_fontSizeExtraLargeBase = m_theme->fontSizeExtraLarge();
+    m_fontSizeHugeBase = m_theme->fontSizeExtraLarge() * 1.2;
+    m_fontSizeHuge = m_fontSizeHugeBase;
+    m_highlightBackgroundOpacity = 0.3f;
+    m_opacityFaint = 0.2f;
+    m_opacityLow = 0.4f;
+    m_opacityHigh = 0.6f;
+    m_opacityOverlay = 0.6f;
+    m_horizontalPageMargin = m_theme->itemSpacingLarge();
+    m_pageStackIndicatorWidth = m_theme->itemSpacingSmall();
+    m_startDragDistance = 20;
+    m_minimumPressHighlightTime = 64;
+    m_flickDeceleration = 1500.0f;
+    m_maximumFlickVelocity = 2500.0f;
+    m_iconSizeExtraSmall = 24;
+    m_iconSizeSmall = 32;
+    m_iconSizeSmallPlus = 48;
+    m_iconSizeMedium = 64;
+    m_iconSizeLarge = 96;
+    m_iconSizeExtraLarge = 128;
+    m_iconSizeLauncher = 86;
+    m_buttonWidthExtraSmall = 140;
+    m_buttonWidthSmall = 200;
+    m_buttonWidthMedium = 300;
+    m_buttonWidthLarge = 400;
+    m_coverSizeSmall = QSize(234, 234);
+    m_coverSizeLarge = QSize(204, 374);
+    m__homePageMargin = m_horizontalPageMargin;
+    m_highlightDimmerColor = QColor(QStringLiteral("#000000"));
+    m_secondaryColor = QColor(QStringLiteral("#b0ffffff"));
+    m_overlayBackgroundColor = QColor(QStringLiteral("#e6000000"));
+    m_backgroundGlowColor = QColor(QStringLiteral("#00000000"));
+    m_errorColor = QColor(QStringLiteral("#ff4d4d"));
+    m__wallpaperOverlayColor = QColor(QStringLiteral("#66000000"));
+    m_lightPrimaryColor = QColor(QStringLiteral("#ffffffff"));
+    m_lightSecondaryColor = QColor(QStringLiteral("#b0ffffff"));
+    m_darkPrimaryColor = QColor(QStringLiteral("#ff000000"));
+    m_darkSecondaryColor = QColor(QStringLiteral("#b0000000"));
+    m_secondaryHighlightColor = QColor(QStringLiteral("#80ffffff"));
+    m__coverOverlayColor = QColor(QStringLiteral("#33000000"));
+    m_colorScheme = LightOnDark;
+    m__webviewCustomLayoutWidthScalingFactor = 1.0f;
     connect(m_theme, &Theme::themeUpdated, this, &KremniumTheme::themeChanged);
 }
 
 QColor KremniumTheme::rgba(QColor color, float opacity)
 {
-    Q_UNUSED(opacity)
+    color.setAlphaF(qBound(0.0f, opacity, 1.0f));
     return color;
 }
 
@@ -258,32 +307,44 @@ float KremniumTheme::opacityOverlay() const
 
 QColor KremniumTheme::highlightColor() const
 {
-    return m_theme->accentColor();
+    QColor c = m_theme->accentColor();
+    return c.isValid() ? c : QColor(QStringLiteral("#00bcd4"));
 }
 
 QColor KremniumTheme::highlightBackgroundColor() const
 {
-    return m_theme->backgroundAccentColor();
+    // Silica uses highlight-derived background for highlighted items; ensure contrast with primary text
+    QColor base = highlightColor();
+    if (!base.isValid())
+        base = QColor(QStringLiteral("#00bcd4"));
+    base.setAlphaF(qBound(0.0, (double)m_highlightBackgroundOpacity, 1.0));
+    return base;
 }
 
 QColor KremniumTheme::highlightDimmerColor() const
 {
-    return m_highlightDimmerColor;
+    return m_highlightDimmerColor.isValid() ? m_highlightDimmerColor : QColor(QStringLiteral("#cc000000"));
 }
 
 QColor KremniumTheme::primaryColor() const
 {
-    return m_theme->textColor();
+    QColor c = m_theme->textColor();
+    return c.isValid() ? c : QColor(QStringLiteral("#ffffffff"));
 }
 
 QColor KremniumTheme::secondaryColor() const
 {
-    return m_theme->fillDarkColor();
+    QColor c = m_theme->fillDarkColor();
+    return c.isValid() ? c : QColor(QStringLiteral("#b0ffffff"));
 }
 
 QColor KremniumTheme::overlayBackgroundColor() const
 {
-    return m_theme->backgroundColor();
+    QColor c = m_theme->backgroundColor();
+    if (c.isValid()) return c;
+    c = QColor(QStringLiteral("#000000"));
+    c.setAlphaF(0.9f);
+    return c;
 }
 
 QColor KremniumTheme::backgroundGlowColor() const

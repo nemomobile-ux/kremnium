@@ -23,27 +23,52 @@ import QtQuick
 import QtQuick.Controls
 
 Rectangle {
+    id: root
     property alias title: labelText.text
-    height: Theme.itemSizeLarge
-    width: parent.width
-    clip: true
+    property alias description: descriptionLabel.text
+    property alias extraContent: extraContentItem.children
 
-    anchors{
-        top: parent.top
-    }
+    implicitHeight: Theme.itemSizeLarge
+    height: implicitHeight
+    width: parent ? parent.width : implicitWidth
+    clip: true
 
     color: Theme.overlayBackgroundColor
 
-    Label{
+    Label {
         id: labelText
-        anchors{
-            left: parent.left
-            leftMargin: Theme.paddingMedium
+        anchors {
+            right: parent.right
+            rightMargin: Theme.horizontalPageMargin
             verticalCenter: parent.verticalCenter
         }
-        color: Theme.primaryColor
+        width: parent.width - Theme.horizontalPageMargin * 2 - extraContentItem.width
+        horizontalAlignment: Text.AlignRight
+        color: Theme.highlightColor
         font.pixelSize: Theme.fontSizeLarge
+        elide: Text.ElideRight
+    }
 
-        onTextChanged: console.log(labelText.text)
+    Label {
+        id: descriptionLabel
+        anchors {
+            right: parent.right
+            rightMargin: Theme.horizontalPageMargin
+            top: labelText.bottom
+        }
+        visible: text.length > 0
+        color: Theme.secondaryHighlightColor
+        font.pixelSize: Theme.fontSizeSmall
+    }
+
+    Item {
+        id: extraContentItem
+        anchors {
+            left: parent.left
+            leftMargin: Theme.horizontalPageMargin
+            verticalCenter: parent.verticalCenter
+        }
+        width: childrenRect.width
+        height: childrenRect.height
     }
 }

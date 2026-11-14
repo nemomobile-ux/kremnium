@@ -56,7 +56,8 @@ Text {
         if (_fadeText) {
             layer.enabled = true
             layer.smooth = true
-            layer.effect = rampComponent
+            if (typeof rampComponent !== "undefined")
+                layer.effect = rampComponent
         } else {
             layer.enabled = false
             layer.effect = null

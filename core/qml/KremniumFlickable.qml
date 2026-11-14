@@ -17,6 +17,39 @@ Flickable {
     property QtObject _scrollAnimation
     property bool _pulleyDimmerActive: pullDownMenu && pullDownMenu._activeDimmer || pushUpMenu && pushUpMenu._activeDimmer
     //property alias _quickScrollItem: quickScrollItem
+    readonly property Item pageStack: {
+        var w = flick.Window.window
+        return (w && w.pageStack) ? w.pageStack : null
+    }
+
+    default property alias _contentData: contentColumn.data
+
+    topMargin: 0
+    bottomMargin: 0
+
+    Item {
+        id: contentColumn
+        width: flick.contentWidth > 0 ? flick.contentWidth : flick.width
+        height: childrenRect.height
+    }
+    contentWidth: width
+    contentHeight: contentColumn.height
+
+    function _attachPullDownMenu(menu) {
+        if (!menu) return
+        if (menu.parent !== flick.contentItem)
+            menu.parent = flick.contentItem
+        menu.anchors.left = undefined
+        menu.anchors.right = undefined
+        menu.width = Qt.binding(function() { return flick.width })
+        menu.y = Qt.binding(function() { return -menu.height })
+        menu.z = 200
+        if (menu.hasOwnProperty("flickable"))
+            menu.flickable = flick
+    }
+
+    onPullDownMenuChanged: _attachPullDownMenu(pullDownMenu)
+    Component.onCompleted: if (pullDownMenu) _attachPullDownMenu(pullDownMenu)
 
     function scrollToTop() {
         FastScroll.scrollToTop(flick, quickScrollItem)

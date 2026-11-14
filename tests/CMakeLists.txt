@@ -1,0 +1,3 @@
+add_subdirectory(kremnium-calculator)
+add_subdirectory(kremnium-clock)
+add_subdirectory(silicacomponentgallery)
