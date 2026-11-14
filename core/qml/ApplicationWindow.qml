@@ -162,13 +162,35 @@ NemoWindow {
         }
     }
 
-    Loader {
-        id: coverLoader
+    Item {
+        id: coverHost
         anchors.fill: parent
         z: -2
-        active: false
         visible: false
-        source: (typeof applicationWindow.cover === "string" || applicationWindow.cover instanceof String) ? applicationWindow.cover : ""
+
+        Loader {
+            id: coverLoader
+            anchors.fill: parent
+            active: applicationWindow.cover !== null && applicationWindow.cover !== undefined && (typeof applicationWindow.cover === "string" || applicationWindow.cover instanceof String || (applicationWindow.cover && applicationWindow.cover.createObject))
+            sourceComponent: (applicationWindow.cover && applicationWindow.cover.createObject) ? applicationWindow.cover : null
+            source: (typeof applicationWindow.cover === "string" || applicationWindow.cover instanceof String) ? applicationWindow.cover : ""
+            onLoaded: {
+                if (item) {
+                    item.visible = true
+                }
+            }
+        }
+    }
+
+    onCoverChanged: {
+        // if cover is an Item instance, reparent into host
+        if (cover && cover !== null && typeof cover === "object" && !cover.createObject && !(typeof cover === "string" || cover instanceof String)) {
+            try {
+                if (cover.parent !== coverHost) cover.parent = coverHost
+                cover.anchors.fill = coverHost
+                cover.visible = true
+            } catch(e) {}
+        }
     }
 
     // Component.onCompleted handled above to also sync Screen overrides
