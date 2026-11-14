@@ -40,20 +40,20 @@ Item {
     property int wrapMode: TextInput.NoWrap
     property int textMargin: Theme.horizontalPageMargin
 
-    property alias contentItem: input
+    property alias contentItem: editorArea
     property alias _editor: input
 
     signal accepted()
 
     width: parent ? parent.width : implicitWidth
-    implicitHeight: labelArea.height + input.implicitHeight + root.textTopMargin + Theme.paddingMedium
+    implicitHeight: labelArea.height + editorArea.implicitHeight + root.textTopMargin + Theme.paddingMedium
     height: implicitHeight
 
     onActiveFocusChanged: if (activeFocus) input.forceActiveFocus()
 
     onBackgroundChanged: {
         if (background) {
-            try { background.parent = root; background.z = -1 } catch(e) {}
+            try { if (background.parent !== root) background.parent = root; background.z = -1 } catch(e) {}
         }
     }
 
@@ -83,7 +83,7 @@ Item {
             anchors.left: parent.left
             anchors.right: parent.right
             sourceComponent: (root.labelComponent && typeof root.labelComponent === "object" && root.labelComponent.createObject !== undefined) ? root.labelComponent : null
-            onLoaded: if (item) { item.parent = labelArea }
+            onLoaded: if (item) { try { item.parent = labelArea } catch(e) {} }
         }
     }
 
@@ -106,26 +106,35 @@ Item {
         radius: 4
     }
 
-    Item { id: leftHolder; anchors.left: parent.left; anchors.leftMargin: Theme.paddingSmall; anchors.verticalCenter: input.verticalCenter; width: root.leftItem ? root.leftItem.width : 0; height: root.leftItem ? root.leftItem.height : 0; data: root.leftItem ? [root.leftItem] : [] }
-    Item { id: rightHolder; anchors.right: parent.right; anchors.rightMargin: Theme.paddingSmall; anchors.verticalCenter: input.verticalCenter; width: root.rightItem ? root.rightItem.width : 0; height: root.rightItem ? root.rightItem.height : 0; data: root.rightItem ? [root.rightItem] : [] }
+    Item { id: leftHolder; anchors.left: parent.left; anchors.leftMargin: Theme.paddingSmall; anchors.verticalCenter: editorArea.verticalCenter; width: root.leftItem ? root.leftItem.width : 0; height: root.leftItem ? root.leftItem.height : 0; data: root.leftItem ? [root.leftItem] : [] }
+    Item { id: rightHolder; anchors.right: parent.right; anchors.rightMargin: Theme.paddingSmall; anchors.verticalCenter: editorArea.verticalCenter; width: root.rightItem ? root.rightItem.width : 0; height: root.rightItem ? root.rightItem.height : 0; data: root.rightItem ? [root.rightItem] : [] }
 
-    TextInput {
-        id: input
+    Item {
+        id: editorArea
         anchors.left: leftHolder.right
         anchors.right: rightHolder.left
         anchors.leftMargin: root.textLeftMargin
         anchors.rightMargin: root.textRightMargin
         anchors.top: labelArea.bottom
         anchors.topMargin: root.textTopMargin
-        color: root.color
-        font.pixelSize: Theme.fontSizeMedium
-        echoMode: root.echoMode
-        inputMethodHints: root.inputMethodHints
-        onAccepted: root.accepted()
+        implicitHeight: input.implicitHeight
+        height: implicitHeight
+
+        TextInput {
+            id: input
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.verticalCenter: parent.verticalCenter
+            color: root.color
+            font.pixelSize: Theme.fontSizeMedium
+            echoMode: root.echoMode
+            inputMethodHints: root.inputMethodHints
+            onAccepted: root.accepted()
+        }
     }
 
     Component.onCompleted: {
-        if (background) { try { background.parent = root; background.z = -1 } catch(e) {} }
+        if (background) { try { if (background.parent !== root) background.parent = root; background.z = -1 } catch(e) {} }
         if (labelComponent && labelComponent.createObject === undefined) { try { labelComponent.parent = labelArea } catch(e) {} }
     }
 
