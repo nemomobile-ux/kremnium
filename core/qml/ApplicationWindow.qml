@@ -147,6 +147,9 @@ NemoWindow {
         property Item previousPage: depth > 1 ? null : null
         property Item nextPage: _attachedPage ? null : null
 
+        function completeAnimation() { }
+        function _emitPageStackBusyChanged() { }
+
         StackView {
             id: stackView
             anchors.fill: parent

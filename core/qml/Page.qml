@@ -61,6 +61,7 @@ NemoPage {
             popAttached: function(p, op) { return s.popAttached ? s.popAttached(p, op) : null },
             navigateForward: function(op) { return s.navigateForward ? s.navigateForward(op) : null },
             navigateBack: function(op) { return s.navigateBack ? s.navigateBack(op) : (s.pop ? s.pop(undefined, op) : null) },
+            completeAnimation: function() { if (s.completeAnimation) s.completeAnimation() },
             _stack: s
         }
     }
