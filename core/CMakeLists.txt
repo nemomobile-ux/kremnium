@@ -86,6 +86,7 @@ set(QML
     qml/ProgressBar.qml
     qml/ProgressCircle.qml
     qml/PullDownMenu.qml
+    qml/Remorse.qml
     qml/RemorseItem.qml
     qml/RemorsePopup.qml
     qml/RemoveAnimation.qml

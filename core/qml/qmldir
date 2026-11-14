@@ -56,6 +56,7 @@ ProgressCircle 1.0 ProgressCircle.qml
 PullDownMenu 1.0 PullDownMenu.qml
 RemorseItem 1.0 RemorseItem.qml
 RemorsePopup 1.0 RemorsePopup.qml
+singleton Remorse 1.0 Remorse.qml
 RemoveAnimation 1.0 RemoveAnimation.qml
 SearchField 1.0 SearchField.qml
 SecondaryButton 1.0 SecondaryButton.qml

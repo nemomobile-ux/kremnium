@@ -33,6 +33,35 @@ BackgroundItem {
     width: parent ? parent.width : implicitWidth
     height: contentHeight
 
+    property bool _remorseActive: false
+
+    function animateRemoval(callback) {
+        _remorseActive = true
+        removalAnim.target = listItem
+        removalAnim._cb = callback
+        removalAnim.start()
+    }
+
+    SequentialAnimation {
+        id: removalAnim
+        property var _cb
+        NumberAnimation { target: null; property: "height"; to: 0; duration: 200; easing.type: Easing.InOutQuad }
+        ScriptAction { script: { if (removalAnim._cb) removalAnim._cb(); listItem._remorseActive = false } }
+        PropertyAction { property: "height"; value: listItem.contentHeight }
+    }
+
+    function remorseAction(text, callback, timeout) {
+        // flexible args: (callback) or (text, callback) or (text, callback, timeout)
+        var t = "Deleted", cb = null, to = undefined
+        if (typeof text === "function" || (text && text.trigger)) { cb = text; to = callback }
+        else { t = text; cb = callback; to = timeout }
+        return Remorse.itemAction(listItem, t, function() { listItem.animateRemoval(cb) }, to)
+    }
+
+    function remorseDelete(text, callback, timeout) {
+        return remorseAction(text, callback, timeout)
+    }
+
     onPressAndHold: {
         if (menu) {
             menuOpen = true
