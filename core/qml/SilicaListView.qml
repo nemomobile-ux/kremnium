@@ -1,28 +1,7 @@
-/*
- * Copyright (C) 2025 Chupligin Sergey <neochapay@gmail.com>
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Library General Public
- * License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Library General Public License for more details.
- *
- * You should have received a copy of the GNU Library General Public License
- * along with this library; see the file COPYING.LIB.  If not, write to
- * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA 02110-1301, USA.
- */
-
-// NOT IMPLEMENTED!!!
-
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 
-SilicaFlickable {
+Flickable {
     id: root
 
     property alias model: listView.model
@@ -57,20 +36,48 @@ SilicaFlickable {
     property bool quickScroll: false
     property bool quickScrollAnimating: false
     property real quickScrollEnabled: quickScroll
+    property Item pullDownMenu
+    property Item pushUpMenu
+    property QtObject _scrollAnimation
+    property bool _pulleyDimmerActive: pullDownMenu && pullDownMenu._activeDimmer || pushUpMenu && pushUpMenu._activeDimmer
+
+    default property alias _data: root.data
 
     contentWidth: width
     contentHeight: listView.contentHeight
 
-    ListView {
-        id: listView
-        anchors.fill: parent
-        interactive: false
-        boundsBehavior: Flickable.StopAtBounds
+    Item {
+        id: listViewContainer
+        width: parent.width
+        height: listView.contentHeight
+
+        ListView {
+            id: listView
+            anchors.fill: parent
+            interactive: false
+            boundsBehavior: Flickable.StopAtBounds
+        }
     }
+
+    function _attachPullDownMenu(menu) {
+        if (!menu) return
+        if (menu.parent !== root.contentItem)
+            menu.parent = root.contentItem
+        menu.width = Qt.binding(function() { return root.width })
+        menu.y = Qt.binding(function() { return -menu.height })
+        menu.z = 200
+        if (menu.hasOwnProperty("flickable"))
+            menu.flickable = root
+    }
+
+    onPullDownMenuChanged: _attachPullDownMenu(pullDownMenu)
+    Component.onCompleted: if (pullDownMenu) _attachPullDownMenu(pullDownMenu)
 
     function positionViewAtIndex(index, mode) { listView.positionViewAtIndex(index, mode) }
     function positionViewAtBeginning() { listView.positionViewAtBeginning() }
     function positionViewAtEnd() { listView.positionViewAtEnd() }
     function indexAt(x, y) { return listView.indexAt(x - contentX, y - contentY) }
     function itemAt(x, y) { return listView.itemAt(x - contentX, y - contentY) }
+    function scrollToTop() { contentY = 0 }
+    function scrollToBottom() { contentY = Math.max(0, contentHeight - height) }
 }
